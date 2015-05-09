@@ -1,0 +1,35 @@
+apply plugin: 'war'
+
+dependencies {
+}
+
+sourceSets {
+  main {
+    java {
+      srcDir 'src/java'
+    }
+    resources {
+      srcDir 'src/resources'
+    }
+  }
+  test {
+    java {
+      srcDir 'src/java'
+    }
+    resources {
+      srcDir 'src/resources'
+    }
+  }
+}
+
+group='com.btcgrouppl'
+archivesBaseName='btc-rest-client-web'
+version='0.1.0'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+          mavenLocal()
+        }
+    }
+}
