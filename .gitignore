@@ -28,6 +28,9 @@ gradle-app.setting
 
 ### Intellij ###
 
+*.iml
+*.ipr
+
 ## Directory-based project format:
 .idea/
 # if you remove the above rule, at least ignore the following:
@@ -106,6 +109,7 @@ local.properties
 # TeXlipse plugin
 .texlipse
 
+.project
 
 *~
 .classpath
@@ -113,4 +117,7 @@ local.properties
 # Ignore dirs pointing to another git repositories
 btc-transactions-backend/
 btc-models/
+
+
+
 
