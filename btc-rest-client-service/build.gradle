@@ -1,6 +1,7 @@
+apply plugin: 'spring-boot'
+
 dependencies {
-    compile project(":btc-transactions-backend")
-    compile("org.springframework.boot:spring-boot-starter-web")
+    compile project(":btc-rest-client-web")
 }
 
 sourceSets {
@@ -22,7 +23,7 @@ sourceSets {
   }
 }
 
-archivesBaseName='btc-transactions-web'
+archivesBaseName='btc-rest-client-web'
 version='0.1.0'
 
 uploadArchives {

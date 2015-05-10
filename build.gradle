@@ -1,47 +1,46 @@
-allprojects {
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "http://repo.spring.io/release"
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+    }
+}
 
-	apply plugin: 'java'
-	apply plugin: 'eclipse'
-	apply plugin: 'idea'
-	apply plugin: 'maven'
-	
-	repositories {
-		mavenLocal()
-		mavenCentral()
-		maven { 
-			url "http://repo.spring.io/release" 
-		}
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+    apply plugin: 'maven'
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url "http://repo.spring.io/release"
+        }
 	}
 
 	dependencies {
-		compile("org.springframework:spring-context:4.0.2.RELEASE")
-		compile("org.springframework.data:spring-data-mongodb:1.7.0.RELEASE")
-		compile("org.mongodb:mongo-java-driver:3.0.1")
-		compile("cglib:cglib:2.2.2")
-		compile('org.codehaus.jackson:jackson-core-asl:1.9.13')
-		compile('org.codehaus.jackson:jackson-mapper-asl:1.9.13')
-		compile("io.reactivex:rxjava:1.0.10")
+        compile("cglib:cglib:2.2.2")
+        compile("io.reactivex:rxjava:1.0.10")
+        compile("org.projectlombok:lombok:1.16.4")
+        compile('org.codehaus.jackson:jackson-core-asl:1.9.13')
+        compile('org.codehaus.jackson:jackson-mapper-asl:1.9.13')
 
-		compile("org.projectlombok:lombok:1.16.4")
-	
-		testCompile("org.springframework:spring-test:4.0.1.RELEASE")
-		testCompile("junit:junit:4.+")
+        testCompile("junit:junit:4.+")
 	}
 }
 
-
-group='com.btcgrouppl'
-archivesBaseName='btc-public'
-version='0.1.0'
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-          mavenLocal()
-        }
-    }
+allprojects {
+    group='com.btcgrouppl'
 }
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.4'
 }
+
+

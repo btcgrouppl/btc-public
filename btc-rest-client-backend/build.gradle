@@ -1,4 +1,9 @@
 dependencies {
+    compile project(":btc-models")
+    compile("org.springframework.boot:spring-boot-starter")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
 sourceSets {
@@ -20,7 +25,6 @@ sourceSets {
   }
 }
 
-group='com.btcgrouppl'
 archivesBaseName='btc-rest-client-backend'
 version='0.1.0'
 

@@ -1,6 +1,6 @@
-apply plugin: 'war'
-
 dependencies {
+    compile project(":btc-rest-client-backend")
+    compile("org.springframework.boot:spring-boot-starter-web")
 }
 
 sourceSets {
@@ -22,7 +22,6 @@ sourceSets {
   }
 }
 
-group='com.btcgrouppl'
 archivesBaseName='btc-rest-client-web'
 version='0.1.0'
 

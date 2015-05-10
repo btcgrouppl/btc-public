@@ -1,6 +1,7 @@
+apply plugin: 'spring-boot'
+
 dependencies {
-    compile project(":btc-transactions-backend")
-    compile("org.springframework.boot:spring-boot-starter-web")
+    compile project(":btc-transactions-web")
 }
 
 sourceSets {

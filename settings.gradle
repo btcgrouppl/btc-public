@@ -1,1 +1,1 @@
-include 'btc-models', 'btc-rest-client-backend', 'btc-rest-client-web', 'btc-transactions-backend', 'btc-transactions-web'
+include 'btc-models', 'btc-rest-client-backend', 'btc-rest-client-web', 'btc-rest-client-service', 'btc-transactions-backend', 'btc-transactions-web', 'btc-transactions-service'
