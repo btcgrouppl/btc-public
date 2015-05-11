@@ -23,7 +23,7 @@ sourceSets {
   }
 }
 
-archivesBaseName='btc-transactions-web'
+archivesBaseName='btc-transactions-service'
 version='0.1.0'
 
 uploadArchives {

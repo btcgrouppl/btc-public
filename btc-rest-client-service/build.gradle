@@ -23,7 +23,7 @@ sourceSets {
   }
 }
 
-archivesBaseName='btc-rest-client-web'
+archivesBaseName='btc-rest-client-service'
 version='0.1.0'
 
 uploadArchives {

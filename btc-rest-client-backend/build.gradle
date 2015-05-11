@@ -1,9 +1,11 @@
 dependencies {
     compile project(":btc-models")
-    compile("org.springframework.boot:spring-boot-starter")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
-    testCompile("org.springframework.boot:spring-boot-starter-test")
+    compile("org.springframework.boot:spring-boot-starter:$springBootVersion")
+    compile("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb:$springBootVersion")
+    compile("org.springframework.boot:spring-boot-starter-log4j:$springBootVersion")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
 }
 
 sourceSets {
