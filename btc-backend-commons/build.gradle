@@ -1,0 +1,33 @@
+dependencies {
+    compile project(":btc-models")
+}
+
+sourceSets {
+  main {
+    java {
+      srcDir 'src/java'
+    }
+    resources {
+      srcDir 'src/resources'
+    }
+  }
+  test {
+    java {
+      srcDir 'src/java'
+    }
+    resources {
+      srcDir 'src/resources'
+    }
+  }
+}
+
+archivesBaseName='btc-backend-commons'
+version='0.1.0'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+          mavenLocal()
+        }
+    }
+}

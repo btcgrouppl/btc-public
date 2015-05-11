@@ -10,12 +10,16 @@ buildscript {
     }
 }
 
-subprojects {
+allprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     apply plugin: 'idea'
     apply plugin: 'maven'
 
+    group='com.btcgrouppl'
+}
+
+subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
@@ -33,10 +37,6 @@ subprojects {
 
         testCompile("junit:junit:4.+")
 	}
-}
-
-allprojects {
-    group='com.btcgrouppl'
 }
 
 task wrapper(type: Wrapper) {
