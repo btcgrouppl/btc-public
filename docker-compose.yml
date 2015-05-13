@@ -4,12 +4,7 @@ btc:
         - ./:/sources
     links:
         - mongo
-        - tomcat
 mongo:
     image: mongo:2.2
     ports:
         - "27017:27017"
-tomcat:
-    image: tomcat:7.0
-    ports:
-        - "8888:8080"
