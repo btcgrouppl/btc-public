@@ -1,5 +1,8 @@
 dependencies {
     compile project(":btc-models")
+    compile("org.springframework.boot:spring-boot-starter:$springBootVersion")
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb:$springBootVersion")
+    compile("org.springframework.boot:spring-boot-starter-log4j:$springBootVersion")
 }
 
 sourceSets {
