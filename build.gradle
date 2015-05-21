@@ -36,6 +36,7 @@ subprojects {
         compile('org.codehaus.jackson:jackson-mapper-asl:1.9.13')
 
         testCompile("junit:junit:4.+")
+        testCompile("pl.pragmatists.tumbler:tumbler:0.4.1")
 	}
 }
 

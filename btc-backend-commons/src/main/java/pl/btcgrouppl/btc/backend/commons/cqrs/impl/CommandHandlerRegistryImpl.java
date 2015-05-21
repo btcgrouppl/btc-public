@@ -3,8 +3,6 @@ package pl.btcgrouppl.btc.backend.commons.cqrs.impl;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -17,11 +15,9 @@ import pl.btcgrouppl.btc.backend.commons.cqrs.exceptions.CqrsException;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 20.05.15.
