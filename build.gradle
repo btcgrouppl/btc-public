@@ -34,8 +34,10 @@ subprojects {
         compile("org.projectlombok:lombok:1.16.4")
         compile('org.codehaus.jackson:jackson-core-asl:1.9.13')
         compile('org.codehaus.jackson:jackson-mapper-asl:1.9.13')
+        compile('com.google.guava:guava:18.0')
 
         testCompile("junit:junit:4.+")
+        testCompile("pl.pragmatists.tumbler:tumbler:0.4.1")
 	}
 }
 
