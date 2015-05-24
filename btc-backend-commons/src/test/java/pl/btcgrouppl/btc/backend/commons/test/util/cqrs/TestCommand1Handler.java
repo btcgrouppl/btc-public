@@ -17,9 +17,9 @@ public class TestCommand1Handler implements CommandHandler<TestCommand1, String>
 
     @Override
     public String handleCommand(TestCommand1 command) {
-        if(command.equals(MAGIC_TXT)) {
-            return "Here you go!";
+        if(command.getSampleField().equals(MAGIC_TXT)) {
+            return ANSWEAR_OK;
         }
-        return "Nope!";
+        return ANSWEAR_FAIL;
     }
 }

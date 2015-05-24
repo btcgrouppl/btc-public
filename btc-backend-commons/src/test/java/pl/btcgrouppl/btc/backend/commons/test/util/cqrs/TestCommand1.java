@@ -2,6 +2,8 @@ package pl.btcgrouppl.btc.backend.commons.test.util.cqrs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import pl.btcgrouppl.btc.backend.commons.cqrs.annotations.CommandAnnotation;
 
 /**
@@ -13,8 +15,9 @@ import pl.btcgrouppl.btc.backend.commons.cqrs.annotations.CommandAnnotation;
  */
 @CommandAnnotation(isAsync = false)
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TestCommand1 {
 
+    @NonNull
     private String sampleField;
 }

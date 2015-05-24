@@ -20,7 +20,6 @@ import pl.btcgrouppl.btc.backend.commons.cqrs.CommandHandlerRegistry;
 import pl.btcgrouppl.btc.backend.commons.cqrs.exceptions.CqrsException;
 import pl.btcgrouppl.btc.backend.commons.test.util.cqrs.TestCommand1;
 import pl.btcgrouppl.btc.backend.commons.test.util.cqrs.TestCommand2;
-import pl.btcgrouppl.btc.backend.commons.test.util.cqrs.TestConfiguration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -28,9 +27,7 @@ import static tumbler.Tumbler.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-//@SpringApplicationConfiguration(classes = BtcBackendCommonsSpringConfiguration.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = BtcBackendCommonsSpringConfiguration.class)
-//@TestExecutionListeners(DependencyInjectionTestExecutionListener.class)
 public class CommandHandlerRegistryImplTest {
 
     @Autowired
@@ -59,13 +56,13 @@ public class CommandHandlerRegistryImplTest {
         assertEquals(expectedCommandHandler, actualCommandHandler);
     }
 
-    @Test(expected = CqrsException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testGetCommandHandlerNonExistingCommand() throws Exception {
         Given("Components scanned, context refreshed");
 
         When("Getting wrong command");
         commandHandlerRegistry.getCommandHandler(TestCommand2.class);
 
-        Then("CqrsException expeted");
+        Then("IllegalArgumentException expeted");
     }
 }

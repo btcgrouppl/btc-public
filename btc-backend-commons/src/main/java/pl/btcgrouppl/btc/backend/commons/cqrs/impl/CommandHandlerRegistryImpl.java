@@ -39,12 +39,12 @@ public class CommandHandlerRegistryImpl implements CommandHandlerRegistry, Appli
      * Getting command by command class. Throwing {@link CqrsException} in case of no such element.
      * @param commandClass
      * @return CommandHandler
-     * @throws CqrsException
+     * @throws java.lang.IllegalArgumentException
      */
     @Override
     public CommandHandler getCommandHandler(Class<?> commandClass) {
         if(!commandHandlerMap.containsKey(commandClass)) {
-            throw new CqrsException("Sorry, no command handler for class: " + commandClass);
+            throw new IllegalArgumentException("Sorry, no command handler for class: " + commandClass);
         }
         String commandBeanAsString = commandHandlerMap.get(commandClass);
         return (CommandHandler)beanFactory.getBean(commandBeanAsString);
@@ -62,7 +62,7 @@ public class CommandHandlerRegistryImpl implements CommandHandlerRegistry, Appli
             try {
                 commandHandlerMap.put(getCommandClassForBeanName(item), item);
             }
-            catch(ClassNotFoundException | CqrsException e) {
+            catch(ClassNotFoundException | IllegalArgumentException e) {
                 LOG.error("Error while getting command class. Continue command handlers scanning..." + e);
             }
         }
@@ -80,6 +80,6 @@ public class CommandHandlerRegistryImpl implements CommandHandlerRegistry, Appli
                 }
             }
         }
-        throw new CqrsException("No type args for command handler bean: " + beanName);
+        throw new IllegalArgumentException("No type args for command handler bean: " + beanName);
     }
 }
