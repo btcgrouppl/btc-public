@@ -12,9 +12,7 @@ import pl.btcgrouppl.btc.backend.commons.BtcBackendCommonsSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandExecutorService;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandHandler;
 import pl.btcgrouppl.btc.backend.commons.cqrs.exceptions.CqrsException;
-import pl.btcgrouppl.btc.backend.commons.test.util.cqrs.TestCommand1;
-import pl.btcgrouppl.btc.backend.commons.test.util.cqrs.TestCommand1Handler;
-import pl.btcgrouppl.btc.backend.commons.test.util.cqrs.TestCommand2;
+import pl.btcgrouppl.btc.backend.commons.test.util.cqrs.*;
 import rx.Observable;
 import rx.observables.BlockingObservable;
 
@@ -32,8 +30,12 @@ public class CommandExecutorServiceImplTest {
     @Qualifier("testCommand1Handler")
     private CommandHandler<TestCommand1, String> expectedCommandHandler;
 
+    @Autowired
+    @Qualifier("testAsyncCommand1Handler")
+    private CommandHandler<TestAsyncCommand, String> expectedAsyncCommandHandler;
+
     @Test
-    public void testExecute() throws Exception {
+    public void testExecuteSync() throws Exception {
         Given("Initialized instance of CommandExecutionService, and sample TestCommand1Handler");
 
         When("Executing execution handler for sample command");
@@ -41,6 +43,17 @@ public class CommandExecutorServiceImplTest {
 
         Then("Proper result should be returned");
         assertEquals(TestCommand1Handler.ANSWEAR_OK, actualAsObservable.first());
+    }
+
+    @Test
+    public void testExecuteAsync() throws Exception {
+        Given("Initialized instance of CommandExecutionService, and sample TestAsyncCommandHandler");
+
+        When("Executing execution handler for sample command (async one)");
+        BlockingObservable<Object> actualAsObservable = commandExecutorService.execute(new TestAsyncCommand()).toBlocking();
+
+        Then("Proper result should be returned");
+        assertEquals(TestAsyncCommandHandler.TXT, actualAsObservable.first());
     }
 
     @Test(expected = CqrsException.class)
