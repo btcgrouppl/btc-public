@@ -5,6 +5,10 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-log4j:$springBootVersion") {
         exclude module: 'slf4j-log4j12'
     }
+    compile("org.springframework.boot:spring-boot-starter-integration:$springBootVersion")
+    compile("org.springframework.integration:spring-integration-java-dsl:$springIntegrationJavaDslVersion")
+    compile("org.springframework.integration:spring-integration-jms:$springIntegrationJsmVersion")
+    compile("org.springframework:spring-jms:$springJsmVersion")
 
     testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
 }
