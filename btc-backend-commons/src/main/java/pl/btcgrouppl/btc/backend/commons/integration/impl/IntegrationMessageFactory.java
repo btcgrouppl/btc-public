@@ -2,6 +2,7 @@ package pl.btcgrouppl.btc.backend.commons.integration.impl;
 
 import lombok.NonNull;
 import pl.btcgrouppl.btc.backend.commons.integration.IntegrationMessageAware;
+import pl.btcgrouppl.btc.backend.commons.integration.models.IntegrationMessage;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 01.06.15.

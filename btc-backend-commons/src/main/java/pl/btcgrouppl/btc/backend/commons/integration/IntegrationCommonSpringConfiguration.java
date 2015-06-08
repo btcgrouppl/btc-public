@@ -14,7 +14,7 @@ import org.springframework.integration.channel.PublishSubscribeChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.dsl.channel.MessageChannels;
 import pl.btcgrouppl.btc.backend.commons.Constants;
-import pl.btcgrouppl.btc.backend.commons.integration.impl.IntegrationMessage;
+import pl.btcgrouppl.btc.backend.commons.integration.models.IntegrationMessage;
 
 import java.util.concurrent.Executors;
 

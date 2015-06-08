@@ -1,4 +1,4 @@
-package pl.btcgrouppl.btc.backend.commons.integration.exceptions;
+package pl.btcgrouppl.btc.backend.commons.integration.models.exceptions;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 06.06.15.

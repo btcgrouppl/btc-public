@@ -1,29 +1,17 @@
 package pl.btcgrouppl.btc.backend.commons.integration;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.integration.annotation.Gateway;
-import org.springframework.integration.annotation.IntegrationComponentScan;
-import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.channel.PublishSubscribeChannel;
-import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
-import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.dsl.jms.Jms;
 import org.springframework.integration.dsl.support.Transformers;
-import org.springframework.integration.transformer.GenericTransformer;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.messaging.MessageChannel;
 import pl.btcgrouppl.btc.backend.commons.Constants;
-import pl.btcgrouppl.btc.backend.commons.integration.impl.IntegrationMessage;
-
-import java.util.concurrent.Executors;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 05.06.15.

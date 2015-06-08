@@ -1,6 +1,6 @@
 package pl.btcgrouppl.btc.backend.commons.integration;
 
-import pl.btcgrouppl.btc.backend.commons.integration.impl.IntegrationMessage;
+import pl.btcgrouppl.btc.backend.commons.integration.models.IntegrationMessage;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 01.06.15.

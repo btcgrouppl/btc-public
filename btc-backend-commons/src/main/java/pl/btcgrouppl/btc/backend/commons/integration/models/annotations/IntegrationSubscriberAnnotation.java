@@ -1,6 +1,5 @@
-package pl.btcgrouppl.btc.backend.commons.integration.annotations;
+package pl.btcgrouppl.btc.backend.commons.integration.models.annotations;
 
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import pl.btcgrouppl.btc.backend.commons.Constants;
 
@@ -22,10 +21,10 @@ import java.lang.annotation.Target;
 public @interface IntegrationSubscriberAnnotation {
 
     /**
-     * Channel to subscribe. By default, it uses {@link Constants.INTEGRATION#GENERAL_CHANNEL}
-     * @return String
+     * Channels to subscribe. By default, it uses one item: {@link Constants.INTEGRATION#GENERAL_CHANNEL}
+     * @return String[]
      */
-    String channel() default Constants.INTEGRATION.GENERAL_CHANNEL;
+    String[] channels() default {Constants.INTEGRATION.GENERAL_CHANNEL};
 
     /**
      * Method name looked up by post processor to pass message payload. By default, onSubscribe method used
