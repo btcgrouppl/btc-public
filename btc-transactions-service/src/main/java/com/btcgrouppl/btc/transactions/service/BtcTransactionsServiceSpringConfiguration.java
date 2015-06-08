@@ -1,6 +1,5 @@
 package com.btcgrouppl.btc.transactions.service;
 
-import com.btcgrouppl.btc.transactions.backend.BtcTransactionsBackendSpringConfiguration;
 import com.btcgrouppl.btc.transactions.web.BtcTransactionsWebSpringConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,7 +12,7 @@ import org.springframework.context.annotation.Import;
  @Configuration
  @ComponentScan
  @EnableAutoConfiguration
- @Import({BtcTransactionsBackendSpringConfiguration.class, BtcTransactionsWebSpringConfiguration.class})
+ @Import({com.btcgrouppl.btc.transactions.backend.BtcTransactionsBackendSpringConfiguration.class, BtcTransactionsWebSpringConfiguration.class})
 public class BtcTransactionsServiceSpringConfiguration {
 
 
