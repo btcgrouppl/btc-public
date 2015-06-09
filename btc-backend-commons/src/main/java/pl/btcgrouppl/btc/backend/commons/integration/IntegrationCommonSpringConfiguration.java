@@ -1,12 +1,11 @@
 package pl.btcgrouppl.btc.backend.commons.integration;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.*;
 import org.springframework.integration.annotation.Gateway;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.channel.DirectChannel;
@@ -16,6 +15,7 @@ import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.dsl.jms.Jms;
 import org.springframework.integration.dsl.support.Transformers;
+import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.jms.core.JmsTemplate;
 import pl.btcgrouppl.btc.backend.commons.Constants;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
@@ -57,30 +57,37 @@ public class IntegrationCommonSpringConfiguration {
 
     @Bean(name = GENERAL_DITECT_CHANNEL)
     @Qualifier(GENERAL_DITECT_CHANNEL)
-    public DirectChannel provideFlowOutDirectChannel() {
+    public DirectChannel flowOutDirectChannel() {
         return MessageChannels.direct(GENERAL_DITECT_CHANNEL).get();
     }
 
     @Bean(name = GENERAL_PUB_SUB_CHANNEL)
     @Qualifier(GENERAL_PUB_SUB_CHANNEL)
-    public PublishSubscribeChannel provideGeneralPubSubMessageChannel() {
+    public PublishSubscribeChannel generalPubSubMessageChannel() {
         return MessageChannels.publishSubscribe(GENERAL_PUB_SUB_CHANNEL, Executors.newCachedThreadPool()).get();
     }
 
-
-    /**
-     * Jackson object mappers
-     */
     @Bean
-    @Qualifier(Constants.JSON.SERIALIZER_CLEAR)
-    public ObjectMapper provideClearObjectMapper() {
+    public ObjectMapper objectMapper() {
         return new ObjectMapper();
     }
 
-    @Bean
+    @Bean(name = Constants.JSON.SERIALIZERS_SET)
     @Qualifier(Constants.JSON.SERIALIZERS_SET)
-    public ObjectMapper provideCustomizedObjectMapper() {
-        return new ObjectMapper();
+    public ObjectMapper customizedObjectMapper(@Qualifier(Constants.JSON.INTEGRATION_DESERIALIZER) JsonDeserializer<IntegrationMessage> integrationMessageJsonDeserializer) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addDeserializer(IntegrationMessage.class, integrationMessageJsonDeserializer);
+        objectMapper.registerModule(simpleModule);
+        return objectMapper;
+    }
+
+    /**
+     * Spring integration Jackson object mapper
+     */
+    @Bean
+    public Jackson2JsonObjectMapper intergationJackson2JsonObjectMapper(@Qualifier(Constants.JSON.SERIALIZERS_SET) ObjectMapper customizedObjectMapper) {
+        return new Jackson2JsonObjectMapper(customizedObjectMapper);
     }
 
 }

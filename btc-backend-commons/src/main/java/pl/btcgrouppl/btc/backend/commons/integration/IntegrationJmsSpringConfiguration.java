@@ -33,7 +33,7 @@ public class IntegrationJmsSpringConfiguration {
 
     @Bean(name = IntegrationCommonSpringConfiguration.GENERAL_FLOW_IN)
     @Qualifier(IntegrationCommonSpringConfiguration.GENERAL_FLOW_IN)
-    public IntegrationFlow provideGeneralChannelIn(JmsTemplate jmsTemplate, @Qualifier(IntegrationCommonSpringConfiguration.GENERAL_PUB_SUB_CHANNEL) PublishSubscribeChannel generalPubSubChannel) {
+    public IntegrationFlow generalChannelIn(JmsTemplate jmsTemplate, @Qualifier(IntegrationCommonSpringConfiguration.GENERAL_PUB_SUB_CHANNEL) PublishSubscribeChannel generalPubSubChannel) {
         return IntegrationFlows.from(Jms.inboundAdapter(jmsTemplate).destination(IntegrationCommonSpringConfiguration.GENERAL_DESTINATION))
                 .transform(Transformers.fromJson()) //TODO custom object mapper for IntegrationMessage
                 .channel(generalPubSubChannel)
@@ -42,7 +42,7 @@ public class IntegrationJmsSpringConfiguration {
 
     @Bean(name = IntegrationCommonSpringConfiguration.GENERAL_FLOW_OUT)
     @Qualifier(IntegrationCommonSpringConfiguration.GENERAL_FLOW_OUT)
-    public IntegrationFlow provideGeneralChannelOut(JmsTemplate jmsTemplate, @Qualifier(IntegrationCommonSpringConfiguration.GENERAL_DITECT_CHANNEL) DirectChannel directOutChannel) {
+    public IntegrationFlow generalChannelOut(JmsTemplate jmsTemplate, @Qualifier(IntegrationCommonSpringConfiguration.GENERAL_DITECT_CHANNEL) DirectChannel directOutChannel) {
         return IntegrationFlows.from(directOutChannel)
                 .transform(Transformers.toJson())   //TODO custom object mapper for IntegrationMessage
                 .handle(Jms.outboundAdapter(jmsTemplate).destination(IntegrationCommonSpringConfiguration.GENERAL_DESTINATION))

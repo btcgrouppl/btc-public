@@ -25,7 +25,7 @@ import pl.btcgrouppl.btc.backend.commons.integration.IntegrationCommonSpringConf
 public class BtcBackendCommonsSpringConfiguration {
 
     @Bean
-    public FactoryBean<CommandExecutorService> provideCommandExecutorService(CommandHandlerRegistry commandHandlerRegistry) {
+    public FactoryBean<CommandExecutorService> commandExecutorService(CommandHandlerRegistry commandHandlerRegistry) {
         return new CommandExecutorServiceFactoryBean(commandHandlerRegistry);
     }
 }
