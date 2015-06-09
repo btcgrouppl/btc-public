@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
 
+import java.util.UUID;
+
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 01.06.15.
  * <p>
@@ -14,6 +16,9 @@ import lombok.NonNull;
 @Data
 @AllArgsConstructor
 public class IntegrationMessage {
+
+    @NonNull
+    UUID uuid;
 
     @NonNull
     private String messageClass;

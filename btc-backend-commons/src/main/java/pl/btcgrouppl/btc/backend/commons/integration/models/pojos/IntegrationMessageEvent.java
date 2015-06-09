@@ -1,11 +1,14 @@
 package pl.btcgrouppl.btc.backend.commons.integration.models.pojos;
 
+import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -21,16 +24,16 @@ public class IntegrationMessageEvent {
 
     @NonNull
     private Map<String, Object> headers;
-    @NonNull
-    private Object payload;
+    private Optional<Object> integrationMessageBody;
 
     /**
-     * Creating from spring integration Message
+     * Creating from spring integration Message. Getting headers and IntegrationMessage's body
      * @param message
      * @return IntegrationMessageEvent
      */
     public static IntegrationMessageEvent fromMessage(@NonNull Message<?> message) {
-        MessageHeaders headers = message.getHeaders();
-        return new IntegrationMessageEvent(headers, message.getPayload());
+        Map<String, Object> headers = (message.getHeaders()==null) ? Collections.<String, Object>emptyMap() : message.getHeaders();
+        IntegrationMessage integrationMessageBody = (IntegrationMessage)Preconditions.checkNotNull(message.getPayload());
+        return new IntegrationMessageEvent(headers, Optional.fromNullable(integrationMessageBody.getBody()));
     }
 }

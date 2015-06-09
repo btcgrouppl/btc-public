@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import pl.btcgrouppl.btc.backend.commons.Constants;
 import pl.btcgrouppl.btc.backend.commons.integration.models.annotations.IntegrationSubscriberAnnotation;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
+import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessageEvent;
 import pl.btcgrouppl.btc.backend.commons.integration.subscribers.IntegrationSubscriber;
 
 import java.util.*;
@@ -146,10 +147,15 @@ public class IntegrationSubscriberRegistry implements AutoCloseable, Application
 
         @Override
         public void handleMessage(Message<?> message) throws MessagingException {
-
-            LOG.debug("Subscriber handler with UUID: " + uuid + ": handling message: " + message);
+            LOG.debug("Subscriber handler with UUID: " + uuid + ". Trying to handle message: " + message);
             IntegrationMessage payload = (IntegrationMessage)message.getPayload();
-            //integrationSubscriber.onIntegrationMessage();
+            try {
+                IntegrationMessageEvent integrationMessageEvent = IntegrationMessageEvent.fromMessage(message);
+                integrationSubscriber.onIntegrationMessage(integrationMessageEvent);
+            }
+            catch(NullPointerException e) { //In case of errors on IntegrationMessageEvent creation
+                LOG.error("Unable to handle integration message." + payload.getUuid() + " to subscriber handler ID: " + uuid + ".", e);
+            }
         }
     }
 
