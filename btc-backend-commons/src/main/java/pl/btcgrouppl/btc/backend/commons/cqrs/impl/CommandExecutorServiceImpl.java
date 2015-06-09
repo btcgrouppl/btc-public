@@ -1,16 +1,14 @@
 package pl.btcgrouppl.btc.backend.commons.cqrs.impl;
 
-import ch.qos.logback.core.util.ExecutorServiceUtil;
 import com.google.common.base.Preconditions;
 import lombok.Data;
 import lombok.NonNull;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.DisposableBean;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandExecutorService;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandHandler;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandHandlerRegistry;
-import pl.btcgrouppl.btc.backend.commons.cqrs.annotations.CommandAnnotation;
+import pl.btcgrouppl.btc.backend.commons.cqrs.models.annotations.CommandAnnotation;
 import pl.btcgrouppl.btc.backend.commons.cqrs.exceptions.CqrsException;
 import rx.Observable;
 

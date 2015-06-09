@@ -2,7 +2,7 @@ package pl.btcgrouppl.btc.backend.commons.test.util.cqrs;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandHandler;
-import pl.btcgrouppl.btc.backend.commons.cqrs.annotations.CommandHandlerAnnotation;
+import pl.btcgrouppl.btc.backend.commons.cqrs.models.annotations.CommandHandlerAnnotation;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 20.05.15.

@@ -1,4 +1,4 @@
-package pl.btcgrouppl.btc.backend.commons.integration.models;
+package pl.btcgrouppl.btc.backend.commons.integration.models.pojos;
 
 import lombok.Data;
 

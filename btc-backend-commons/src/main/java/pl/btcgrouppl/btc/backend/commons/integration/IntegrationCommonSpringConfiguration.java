@@ -1,5 +1,7 @@
 package pl.btcgrouppl.btc.backend.commons.integration;
 
+import org.codehaus.jackson.map.JsonSerializer;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +16,7 @@ import org.springframework.integration.channel.PublishSubscribeChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.dsl.channel.MessageChannels;
 import pl.btcgrouppl.btc.backend.commons.Constants;
-import pl.btcgrouppl.btc.backend.commons.integration.models.IntegrationMessage;
+import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 
 import java.util.concurrent.Executors;
 
@@ -62,4 +64,21 @@ public class IntegrationCommonSpringConfiguration {
     public PublishSubscribeChannel provideGeneralPubSubMessageChannel() {
         return MessageChannels.publishSubscribe(GENERAL_PUB_SUB_CHANNEL, Executors.newCachedThreadPool()).get();
     }
+
+
+    /**
+     * Jackson object mappers
+     */
+    @Bean
+    @Qualifier(Constants.JSON.SERIALIZER_CLEAR)
+    public ObjectMapper provideClearObjectMapper() {
+        return new ObjectMapper();
+    }
+
+    @Bean
+    @Qualifier(Constants.JSON.SERIALIZERS_SET)
+    public ObjectMapper provideCustomizedObjectMapper() {
+        return new ObjectMapper();
+    }
+
 }

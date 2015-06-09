@@ -1,10 +1,8 @@
-package pl.btcgrouppl.btc.backend.commons.integration.impl;
+package pl.btcgrouppl.btc.backend.commons.integration.subscribers.impl;
 
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationListener;
@@ -15,8 +13,8 @@ import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Component;
 import pl.btcgrouppl.btc.backend.commons.Constants;
-import pl.btcgrouppl.btc.backend.commons.integration.IntegrationSubscriber;
-import pl.btcgrouppl.btc.backend.commons.integration.models.IntegrationMessage;
+import pl.btcgrouppl.btc.backend.commons.integration.subscribers.IntegrationSubscriber;
+import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 import pl.btcgrouppl.btc.backend.commons.integration.models.annotations.IntegrationSubscriberAnnotation;
 
 import java.util.*;

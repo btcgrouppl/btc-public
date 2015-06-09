@@ -1,10 +1,9 @@
 package pl.btcgrouppl.btc.backend.commons.test.util.cqrs;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import pl.btcgrouppl.btc.backend.commons.cqrs.annotations.CommandAnnotation;
+import pl.btcgrouppl.btc.backend.commons.cqrs.models.annotations.CommandAnnotation;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 20.05.15.

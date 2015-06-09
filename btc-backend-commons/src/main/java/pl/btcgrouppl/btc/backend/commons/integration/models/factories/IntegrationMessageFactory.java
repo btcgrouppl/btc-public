@@ -1,8 +1,8 @@
-package pl.btcgrouppl.btc.backend.commons.integration.impl;
+package pl.btcgrouppl.btc.backend.commons.integration.models.factories;
 
 import lombok.NonNull;
-import pl.btcgrouppl.btc.backend.commons.integration.IntegrationMessageAware;
-import pl.btcgrouppl.btc.backend.commons.integration.models.IntegrationMessage;
+import pl.btcgrouppl.btc.backend.commons.integration.models.IntegrationMessageAware;
+import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 01.06.15.
@@ -14,7 +14,7 @@ public class IntegrationMessageFactory {
 
     /**
      * IntegrationMessage creator. It checks, if object implements IntegrationMessageAware first. If so, it takes object
-     * from {@link pl.btcgrouppl.btc.backend.commons.integration.IntegrationMessageAware#toIntegrationMessage()} method.
+     * from {@link pl.btcgrouppl.btc.backend.commons.integration.models.IntegrationMessageAware#toIntegrationMessage()} method.
      * Otherwise it will transform it manually.
      * @param message
      * @return IntegrationMessage

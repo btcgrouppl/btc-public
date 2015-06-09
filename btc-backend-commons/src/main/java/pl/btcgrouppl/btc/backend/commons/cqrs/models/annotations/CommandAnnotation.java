@@ -1,4 +1,4 @@
-package pl.btcgrouppl.btc.backend.commons.cqrs.annotations;
+package pl.btcgrouppl.btc.backend.commons.cqrs.models.annotations;
 
 import lombok.Data;
 
