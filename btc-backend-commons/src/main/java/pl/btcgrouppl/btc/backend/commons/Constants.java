@@ -1,7 +1,5 @@
 package pl.btcgrouppl.btc.backend.commons;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 05.06.15.
  * <p>

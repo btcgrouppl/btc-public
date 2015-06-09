@@ -11,7 +11,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandHandler;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandHandlerRegistry;
-import pl.btcgrouppl.btc.backend.commons.cqrs.exceptions.CqrsException;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -36,7 +35,7 @@ public class CommandHandlerRegistryImpl implements CommandHandlerRegistry, Appli
     }
 
     /**
-     * Getting command by command class. Throwing {@link CqrsException} in case of no such element.
+     * Getting command by command class. Throwing {@link pl.btcgrouppl.btc.backend.commons.cqrs.models.exceptions.CqrsException} in case of no such element.
      * @param commandClass
      * @return CommandHandler
      * @throws java.lang.IllegalArgumentException

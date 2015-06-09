@@ -1,6 +1,5 @@
 package pl.btcgrouppl.btc.backend.commons.integration;
 
-import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -9,12 +8,15 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.integration.annotation.Gateway;
-import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.channel.PublishSubscribeChannel;
-import org.springframework.integration.config.EnableIntegration;
+import org.springframework.integration.dsl.IntegrationFlow;
+import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.channel.MessageChannels;
+import org.springframework.integration.dsl.jms.Jms;
+import org.springframework.integration.dsl.support.Transformers;
+import org.springframework.jms.core.JmsTemplate;
 import pl.btcgrouppl.btc.backend.commons.Constants;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 
@@ -28,9 +30,9 @@ import java.util.concurrent.Executors;
  */
 @Configuration
 @EnableAutoConfiguration
-@EnableIntegration
+//@EnableIntegration
 @ComponentScan
-@IntegrationComponentScan
+//@IntegrationComponentScan
 @Import(value = {IntegrationJmsSpringConfiguration.class})
 public class IntegrationCommonSpringConfiguration {
 

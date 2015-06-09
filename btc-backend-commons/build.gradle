@@ -9,6 +9,7 @@ dependencies {
     compile("org.springframework.integration:spring-integration-java-dsl:$springIntegrationJavaDslVersion")
     compile("org.springframework.integration:spring-integration-jms:$springIntegrationJsmVersion")
     compile("org.springframework:spring-jms:$springJsmVersion")
+    compile("org.apache.activemq:activemq-broker:5.11.1")
 
     testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
 }

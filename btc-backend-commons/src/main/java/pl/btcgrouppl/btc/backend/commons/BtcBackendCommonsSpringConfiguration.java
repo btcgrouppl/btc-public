@@ -2,7 +2,10 @@ package pl.btcgrouppl.btc.backend.commons;
 
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.config.EnableIntegration;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandExecutorService;

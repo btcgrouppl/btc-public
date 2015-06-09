@@ -13,9 +13,9 @@ import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Component;
 import pl.btcgrouppl.btc.backend.commons.Constants;
-import pl.btcgrouppl.btc.backend.commons.integration.subscribers.IntegrationSubscriber;
-import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 import pl.btcgrouppl.btc.backend.commons.integration.models.annotations.IntegrationSubscriberAnnotation;
+import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
+import pl.btcgrouppl.btc.backend.commons.integration.subscribers.IntegrationSubscriber;
 
 import java.util.*;
 
@@ -55,6 +55,7 @@ public class IntegrationSubscriberRegistry implements AutoCloseable, Application
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         subscribersToHandlers.clear();
+        scanForChannels();
         scanForSubscribers();
     }
 
@@ -76,7 +77,6 @@ public class IntegrationSubscriberRegistry implements AutoCloseable, Application
                 channels = annotation.channels();
             }
             SubscriberMessageHandler subChannelsHandler = new SubscriberMessageHandler(channels, integrationSubscriber);
-            checkChannelsBeforeSubscribe(subChannelsHandler);  //Check, if channels exist before subscribe
             subscribeUnsubscribeHandler(subChannelsHandler, true);
             subscribersToHandlers.put(beanName, subChannelsHandler);
         }
@@ -90,8 +90,13 @@ public class IntegrationSubscriberRegistry implements AutoCloseable, Application
     protected void subscribeUnsubscribeHandler(SubscriberMessageHandler subMessageHandler, boolean subscribe) {
         List<String> channels = subMessageHandler.channels;
         for(String channelName: channels) {
+            if(!channelsToBeanNames.containsKey(channelName)) {
+                LOG.debug("Trying to add subscribtion for non-existing channel name: " + channelName);
+                continue;
+            }
             PublishSubscribeChannel channelBean = beanFactory.getBean(channelsToBeanNames.get(channelName), PublishSubscribeChannel.class);
             boolean toSubscribe = subscribe ? channelBean.subscribe(subMessageHandler) : channelBean.unsubscribe(subMessageHandler);
+            LOG.debug("Subscribe (true)/usubscribe (false): " + subscribe + " to channel: " + channelName + ". Subscriber handler ID: " + subMessageHandler.uuid);
         }
     }
 
@@ -107,14 +112,6 @@ public class IntegrationSubscriberRegistry implements AutoCloseable, Application
         }
     }
 
-    /**
-     * Checking, if subscriber try to subscribe correct channels
-     * @param subscriberChannels
-     */
-    protected void checkChannelsBeforeSubscribe(SubscriberMessageHandler subscriberChannels) {
-
-    }
-
     @Override
     public void close() throws Exception {
         for(Map.Entry<String, SubscriberMessageHandler> subscriber: subscribersToHandlers.entrySet()) {
@@ -126,30 +123,33 @@ public class IntegrationSubscriberRegistry implements AutoCloseable, Application
 
 
     /**
-     * Subscriber channels wrapper class
+     * Subscriber channels adapter class. Adapting IntegrationSubscriber to MessageHandler
      *
      */
     @EqualsAndHashCode
     private class SubscriberMessageHandler implements MessageHandler {
 
+        public final UUID uuid;   //Subscriber unique identifier
         public final List<String> channels;
         public final IntegrationSubscriber integrationSubscriber;
+
+
+        public SubscriberMessageHandler(String[] channelsAsString, IntegrationSubscriber integrationSubscriber) {
+            this(Arrays.asList(channelsAsString), integrationSubscriber);
+        }
 
         public SubscriberMessageHandler(List<String> channelsAsString, IntegrationSubscriber integrationSubscriber) {
             channels = Collections.unmodifiableList(channelsAsString);
             this.integrationSubscriber = integrationSubscriber;
-        }
-
-        public SubscriberMessageHandler(String[] channelsAsString, IntegrationSubscriber integrationSubscriber) {
-            channels = Collections.unmodifiableList(Arrays.asList(channelsAsString));
-            this.integrationSubscriber = integrationSubscriber;
+            uuid = UUID.randomUUID();
         }
 
         @Override
         public void handleMessage(Message<?> message) throws MessagingException {
-            IntegrationMessage payload = (IntegrationMessage)message.getPayload();
 
-            //TODO finish
+            LOG.debug("Subscriber handler with UUID: " + uuid + ": handling message: " + message);
+            IntegrationMessage payload = (IntegrationMessage)message.getPayload();
+            //integrationSubscriber.onIntegrationMessage();
         }
     }
 

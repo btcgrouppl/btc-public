@@ -1,11 +1,15 @@
 package pl.btcgrouppl.btc.backend.commons.integration;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.channel.PublishSubscribeChannel;
+import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.jms.Jms;
@@ -21,6 +25,10 @@ import pl.btcgrouppl.btc.backend.commons.Constants;
  */
 @Configuration
 @Profile(Constants.PROFILES.PROFILE_INTEGRATION_JMS)
+@EnableAutoConfiguration
+@EnableIntegration
+@ComponentScan
+@IntegrationComponentScan
 public class IntegrationJmsSpringConfiguration {
 
     @Bean(name = IntegrationCommonSpringConfiguration.GENERAL_FLOW_IN)
