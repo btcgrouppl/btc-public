@@ -11,6 +11,7 @@ import pl.btcgrouppl.btc.backend.commons.BtcBackendCommonsSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandExecutorService;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandHandler;
 import pl.btcgrouppl.btc.backend.commons.cqrs.models.exceptions.CqrsException;
+import pl.btcgrouppl.btc.backend.commons.test.BtcBackendCommonsTestSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.test.util.cqrs.*;
 import rx.observables.BlockingObservable;
 
@@ -18,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static tumbler.Tumbler.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = BtcBackendCommonsSpringConfiguration.class)
+@ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = BtcBackendCommonsTestSpringConfiguration.class)
 public class CommandExecutorServiceImplTest {
 
     @Autowired

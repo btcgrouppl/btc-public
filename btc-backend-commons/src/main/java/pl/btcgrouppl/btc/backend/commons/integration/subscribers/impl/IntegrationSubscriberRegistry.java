@@ -60,6 +60,14 @@ public class IntegrationSubscriberRegistry implements AutoCloseable, Application
         scanForSubscribers();
     }
 
+    @Override
+    public void close() throws Exception {
+        for(Map.Entry<String, SubscriberMessageHandler> subscriber: subscribersToHandlers.entrySet()) {
+            subscribeUnsubscribeHandler(subscriber.getValue(), false);
+        }
+        subscribersToHandlers.clear();
+    }
+
     /**
      * Scanning for all available subscribers
      */
@@ -106,19 +114,19 @@ public class IntegrationSubscriberRegistry implements AutoCloseable, Application
      */
     protected void scanForChannels() {
         String[] beanNamesForType = beanFactory.getBeanNamesForType(PublishSubscribeChannel.class);
-        for(String beanName: beanNamesForType) {
+        for (String beanName : beanNamesForType) {
             PublishSubscribeChannel pubSubChannel = beanFactory.getBean(beanName, PublishSubscribeChannel.class);
             LOG.debug("Registering pub-sub channel in registry. Channel name: " + pubSubChannel.getComponentName() + ", bean name: " + beanName);
             channelsToBeanNames.put(pubSubChannel.getComponentName(), beanName);
         }
     }
 
-    @Override
-    public void close() throws Exception {
-        for(Map.Entry<String, SubscriberMessageHandler> subscriber: subscribersToHandlers.entrySet()) {
-            subscribeUnsubscribeHandler(subscriber.getValue(), false);
-        }
-        subscribersToHandlers.clear();
+    public Map<String, SubscriberMessageHandler> getSubscribersToHandlers() {
+        return Collections.unmodifiableMap(subscribersToHandlers);
+    }
+
+    public Map<String, String> getChannelsToBeanNames() {
+        return Collections.unmodifiableMap(channelsToBeanNames);
     }
 
 
