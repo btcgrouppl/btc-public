@@ -136,7 +136,7 @@ public class IntegrationSubscriberRegistry implements AutoCloseable, Application
      *
      */
     @EqualsAndHashCode
-    private class SubscriberMessageHandler implements MessageHandler {
+    public class SubscriberMessageHandler implements MessageHandler {
 
         public final UUID uuid;   //Subscriber unique identifier
         public final List<String> channels;

@@ -20,6 +20,7 @@ import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMes
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 08.06.15.
@@ -45,10 +46,10 @@ public class IntegrationMessageDeserializer extends JsonDeserializer<Integration
         String uuid = jsonNode.get(UUID).asText();
         String bodyClass = jsonNode.get(MESSAGE_CLASS).asText();
         try {
-            String body = jsonNode.get(BODY).asText();
+            String body = jsonNode.get(BODY).toString();
             Class<?> bodyClazz = Class.forName(bodyClass);
             Object bodyAsObject = objectMapper.readValue(body, bodyClazz);
-            return IntegrationMessageFactory.create(bodyAsObject);
+            return IntegrationMessageFactory.create(java.util.UUID.fromString(uuid), bodyAsObject);
         } catch (ClassNotFoundException | NullPointerException e) {
             LOG.error("Error while processing message with ID: " + uuid + ".", e);
             throw new JsonParseException(e.getMessage(), JsonLocation.NA, e);

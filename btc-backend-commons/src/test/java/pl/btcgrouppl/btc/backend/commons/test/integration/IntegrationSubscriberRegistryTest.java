@@ -35,6 +35,9 @@ import static tumbler.Tumbler.When;
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = BtcBackendCommonsTestSpringConfiguration.class)
 public class IntegrationSubscriberRegistryTest {
 
+    public static final String SAMPLE_SUB_1_BEAN = "sampleSubscriber1";
+    public static final String SAMPLE_SUB_2_BEAN = "sampleSubscriber2";
+
     @Autowired
     private ConfigurableListableBeanFactory beanFactory;
 
@@ -49,12 +52,14 @@ public class IntegrationSubscriberRegistryTest {
         When("Getting this information from registry");
         Map<String, ?> actualSubscribersToHandlers = integrationSubscriberRegistry.getSubscribersToHandlers();
 
-        Then("Correct data should be returned");
+        Then("Correct data should be returned (and correct channel subscriptions)");
         assertEquals(expectedIntegrationSubscribers.size(), actualSubscribersToHandlers.size());
 
         Set<String> expectedSubscribers = expectedIntegrationSubscribers.keySet();
         Set<String> actualSubscribers = actualSubscribersToHandlers.keySet();
-        assertTrue(expectedSubscribers.contains(actualSubscribers));
+        assertTrue(expectedSubscribers.containsAll(actualSubscribers));
+        assertTrue(actualSubscribers.contains(SAMPLE_SUB_1_BEAN));
+        assertTrue(actualSubscribers.contains(SAMPLE_SUB_2_BEAN));
     }
 
     @Test
