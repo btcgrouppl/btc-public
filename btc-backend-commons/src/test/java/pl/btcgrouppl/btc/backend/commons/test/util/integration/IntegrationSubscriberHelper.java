@@ -1,5 +1,6 @@
 package pl.btcgrouppl.btc.backend.commons.test.util.integration;
 
+import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 import rx.Observable;
 
 /**
@@ -12,19 +13,13 @@ public interface IntegrationSubscriberHelper {
 
     /**
      * Counting number of sent messages to subscriber for given channel
-     * @param channelName
-     * @return Observable<Integer>
+     * @return Observable<IntegrationMessage>
      */
-    Observable<Integer> countForChannel(String channelName);
+    Observable<IntegrationMessage> countMessages();
 
     /**
-     * Refreshing all counters logic
+     * Notify about new integation message
+     * @param integrationMessage
      */
-    void refresh() throws Exception;
-
-    /**
-     * Increasing for channel
-     * @param channel
-     */
-    void increase(String channel);
+    void notify(IntegrationMessage integrationMessage);
 }
