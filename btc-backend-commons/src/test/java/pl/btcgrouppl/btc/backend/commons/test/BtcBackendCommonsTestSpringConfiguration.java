@@ -6,13 +6,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.integration.annotation.Gateway;
 import org.springframework.integration.annotation.IntegrationComponentScan;
+import org.springframework.integration.annotation.MessagingGateway;
+import org.springframework.integration.channel.DirectChannel;
+import org.springframework.integration.channel.PublishSubscribeChannel;
 import org.springframework.integration.config.EnableIntegration;
+import org.springframework.integration.dsl.IntegrationFlow;
+import org.springframework.integration.dsl.IntegrationFlows;
+import org.springframework.integration.dsl.channel.MessageChannels;
+import org.springframework.integration.dsl.jms.Jms;
+import org.springframework.integration.dsl.support.Transformers;
+import org.springframework.jms.core.JmsTemplate;
 import pl.btcgrouppl.btc.backend.commons.BtcBackendCommonsSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 import pl.btcgrouppl.btc.backend.commons.test.util.cqrs.TestCommand1;
 
 import java.util.UUID;
+import java.util.concurrent.Executors;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 10.06.15.
@@ -35,5 +46,46 @@ public class BtcBackendCommonsTestSpringConfiguration {
     public IntegrationMessage testIntegrationMessage() {
         TestCommand1 testCommand1 = new TestCommand1(TEST_INSTANCE);
         return new IntegrationMessage(UUID.randomUUID(), testCommand1.getClass().getName(), testCommand1);
+    }
+
+    /**
+     * Test spring integration config
+     */
+    @MessagingGateway
+    public interface TestChannelMessageGateway {
+
+        @Gateway(requestChannel = TestConstants.INTEGRATION.TEST_CHANNEL_DIRECT)
+        void sendTestMessage(IntegrationMessage integrationMessage);
+    }
+
+    @Bean(name = TestConstants.INTEGRATION.TEST_CHANNEL_DIRECT)
+    @Qualifier(TestConstants.INTEGRATION.TEST_CHANNEL_DIRECT)
+    public DirectChannel testDirectChannel() {
+        return MessageChannels.direct(TestConstants.INTEGRATION.TEST_CHANNEL_DIRECT).get();
+    }
+
+    @Bean(name = TestConstants.INTEGRATION.TEST_CHANNEL_PUBSUB)
+    @Qualifier(TestConstants.INTEGRATION.TEST_CHANNEL_PUBSUB)
+    public PublishSubscribeChannel testPubSubChannel() {
+        return MessageChannels.publishSubscribe(TestConstants.INTEGRATION.TEST_CHANNEL_PUBSUB, Executors.newCachedThreadPool()).get();
+    }
+
+    @Bean(name = TestConstants.INTEGRATION.TEST_FLOW_OUT)
+    @Qualifier(TestConstants.INTEGRATION.TEST_FLOW_OUT)
+    public IntegrationFlow testFlowOut(@Qualifier(TestConstants.INTEGRATION.TEST_CHANNEL_DIRECT) DirectChannel testDirectChannel, JmsTemplate jmsTemplate) {
+        return IntegrationFlows.from(testDirectChannel)
+                .transform(Transformers.toJson())   //TODO proper object mapper
+                .handle(Jms.outboundAdapter(jmsTemplate))
+                .get();
+    }
+
+    @Bean(name = TestConstants.INTEGRATION.TEST_FLOW_IN)
+    @Qualifier(TestConstants.INTEGRATION.TEST_FLOW_IN)
+    public IntegrationFlow testFlowIn(@Qualifier(TestConstants.INTEGRATION.TEST_CHANNEL_PUBSUB) PublishSubscribeChannel testPubSubChannel, JmsTemplate jmsTemplate) {
+        return IntegrationFlows.from(Jms.inboundAdapter(jmsTemplate))
+                .transform(Transformers.fromJson())
+                .channel(testPubSubChannel)     //TODO proper object mapper
+                .get();
+
     }
 }

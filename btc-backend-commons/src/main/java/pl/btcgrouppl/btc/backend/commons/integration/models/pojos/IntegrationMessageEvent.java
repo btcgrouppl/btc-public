@@ -24,7 +24,12 @@ public class IntegrationMessageEvent {
 
     @NonNull
     private Map<String, Object> headers;
+    @NonNull
+    private IntegrationMessage integrationMessage;
     private Optional<Object> integrationMessageBody;
+
+
+
 
     /**
      * Creating from spring integration Message. Getting headers and IntegrationMessage's body
@@ -34,6 +39,6 @@ public class IntegrationMessageEvent {
     public static IntegrationMessageEvent fromMessage(@NonNull Message<?> message) {
         Map<String, Object> headers = (message.getHeaders()==null) ? Collections.<String, Object>emptyMap() : message.getHeaders();
         IntegrationMessage integrationMessageBody = (IntegrationMessage)Preconditions.checkNotNull(message.getPayload());
-        return new IntegrationMessageEvent(headers, Optional.fromNullable(integrationMessageBody.getBody()));
+        return new IntegrationMessageEvent(headers, integrationMessageBody, Optional.fromNullable(integrationMessageBody.getBody()));
     }
 }

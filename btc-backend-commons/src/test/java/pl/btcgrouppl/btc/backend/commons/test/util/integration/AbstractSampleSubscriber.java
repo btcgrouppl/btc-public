@@ -4,8 +4,13 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import pl.btcgrouppl.btc.backend.commons.integration.models.annotations.IntegrationSubscriberAnnotation;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
+import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessageEvent;
+import pl.btcgrouppl.btc.backend.commons.integration.subscribers.IntegrationSubscriber;
 import rx.Observable;
+import rx.Subscription;
+import rx.functions.Action1;
 import rx.subjects.ReplaySubject;
+import rx.subscriptions.CompositeSubscription;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,30 +22,48 @@ import java.util.Map;
  *     Abstract sample subscriber. Operations connected with testing, like: counting messages etc.
  * </p>
  */
-public class AbstractSampleSubscriber implements IntegrationSubscriberHelper, AutoCloseable {
+public class AbstractSampleSubscriber implements IntegrationSubscriber, IntegrationSubscriberHelper, AutoCloseable {
 
     private static final Logger LOG = LogManager.getLogger(AbstractSampleSubscriber.class);
 
     protected ReplaySubject<IntegrationMessage> replaySubject;
+    protected CompositeSubscription compositeSubscription;
 
     public AbstractSampleSubscriber() {
         init();
     }
 
     @Override
-    public void close() throws Exception {
-        replaySubject.onCompleted();
-    }
-
-    @Override
-    public Observable<IntegrationMessage> countMessages() {
+    public Observable<IntegrationMessage> asObservable() {
         return replaySubject.asObservable();
     }
 
     @Override
     public void notify(IntegrationMessage integrationMessage) {
         LOG.debug("Incomming integration message: " + integrationMessage + ". Passing it to rx Subject");
+        replaySubject.onNext(integrationMessage);
+    }
 
+    @Override
+    public Subscription subscribe(Action1<IntegrationMessage> subscriber) {
+        final Subscription subscription = replaySubject.subscribe(subscriber);
+        compositeSubscription.add(subscription);
+        return subscription;
+    }
+
+    @Override
+    public void onIntegrationMessage(IntegrationMessageEvent integrationMessageEvent) {
+        LOG.debug("Sample subscriber1: " + integrationMessageEvent);
+        LOG.debug("Sample subscriber1 headers: " + integrationMessageEvent.getHeaders());
+        LOG.debug("Sample subscriber1 message body: " + integrationMessageEvent.getIntegrationMessageBody());
+        IntegrationMessage integrationMessage = integrationMessageEvent.getIntegrationMessage();
+        notify(integrationMessage);     //Notify RX subject
+    }
+
+    @Override
+    public void close() throws Exception {
+        replaySubject.onCompleted();
+        compositeSubscription.clear();
     }
 
     private void init() {

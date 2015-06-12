@@ -39,7 +39,7 @@ public class IntegrationCommonSpringConfiguration {
 
     public static final String GENERAL_PUB_SUB_CHANNEL = Constants.INTEGRATION.GENERAL_CHANNEL;
     public static final String GENERAL_DESTINATION = Constants.INTEGRATION.GENERAL_DESTINATION;
-    public static final String GENERAL_DITECT_CHANNEL = "generalDirectChannel";
+    public static final String GENERAL_DIRECT_CHANNEL = "generalDirectChannel";
     public static final String GENERAL_FLOW_IN = "generalFlowIn";
     public static final String GENERAL_FLOW_OUT = "generalFlowOut";
 
@@ -50,15 +50,15 @@ public class IntegrationCommonSpringConfiguration {
     @MessagingGateway
     public interface GeneralMessageGateway {
 
-        @Gateway(requestChannel = GENERAL_DITECT_CHANNEL)
+        @Gateway(requestChannel = GENERAL_DIRECT_CHANNEL)
         void sendMessage(IntegrationMessage message);
     }
 
 
-    @Bean(name = GENERAL_DITECT_CHANNEL)
-    @Qualifier(GENERAL_DITECT_CHANNEL)
+    @Bean(name = GENERAL_DIRECT_CHANNEL)
+    @Qualifier(GENERAL_DIRECT_CHANNEL)
     public DirectChannel flowOutDirectChannel() {
-        return MessageChannels.direct(GENERAL_DITECT_CHANNEL).get();
+        return MessageChannels.direct(GENERAL_DIRECT_CHANNEL).get();
     }
 
     @Bean(name = GENERAL_PUB_SUB_CHANNEL)

@@ -1,8 +1,10 @@
 package pl.btcgrouppl.btc.backend.commons.test.util.integration;
 
+import com.google.common.base.Optional;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import pl.btcgrouppl.btc.backend.commons.integration.models.annotations.IntegrationSubscriberAnnotation;
+import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessageEvent;
 import pl.btcgrouppl.btc.backend.commons.integration.subscribers.IntegrationSubscriber;
 
@@ -13,13 +15,5 @@ import pl.btcgrouppl.btc.backend.commons.integration.subscribers.IntegrationSubs
  * </p>
  */
 @IntegrationSubscriberAnnotation
-public class SampleSubscriber1 implements IntegrationSubscriber {
-
-    private static final Logger LOG = LogManager.getLogger(SampleSubscriber1.class);
-
-    @Override
-    public void onIntegrationMessage(IntegrationMessageEvent integrationMessageEvent) {
-        LOG.debug("Sample subscriber1: " + integrationMessageEvent);
-    }
-
+public class SampleSubscriber1 extends AbstractSampleSubscriber {
 }

@@ -42,7 +42,7 @@ public class IntegrationJmsSpringConfiguration {
 
     @Bean(name = IntegrationCommonSpringConfiguration.GENERAL_FLOW_OUT)
     @Qualifier(IntegrationCommonSpringConfiguration.GENERAL_FLOW_OUT)
-    public IntegrationFlow generalChannelOut(JmsTemplate jmsTemplate, @Qualifier(IntegrationCommonSpringConfiguration.GENERAL_DITECT_CHANNEL) DirectChannel directOutChannel) {
+    public IntegrationFlow generalChannelOut(JmsTemplate jmsTemplate, @Qualifier(IntegrationCommonSpringConfiguration.GENERAL_DIRECT_CHANNEL) DirectChannel directOutChannel) {
         return IntegrationFlows.from(directOutChannel)
                 .transform(Transformers.toJson())   //TODO custom object mapper for IntegrationMessage
                 .handle(Jms.outboundAdapter(jmsTemplate).destination(IntegrationCommonSpringConfiguration.GENERAL_DESTINATION))
