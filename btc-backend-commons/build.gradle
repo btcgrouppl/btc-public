@@ -10,8 +10,18 @@ dependencies {
     compile("org.springframework.integration:spring-integration-jms:$springIntegrationJsmVersion")
     compile("org.springframework:spring-jms:$springJsmVersion")
     compile("org.apache.activemq:activemq-broker:5.11.1")
+    compile("org.slf4j:slf4j-api:1.7.12")
+    compile("org.slf4j:slf4j-log4j12:1.7.12")
+    compile("org.slf4j:slf4j-simple:1.7.12")
 
     testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+}
+
+jar {
+    from("src/main/resources") {
+        include "**/*.xml"
+        into "**/*.xml"
+    }
 }
 
 sourceSets {

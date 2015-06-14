@@ -67,6 +67,7 @@ public class AbstractSampleSubscriber implements IntegrationSubscriber, Integrat
     }
 
     private void init() {
+        replaySubject = ReplaySubject.create();
         IntegrationSubscriberAnnotation annotation = this.getClass().getAnnotation(IntegrationSubscriberAnnotation.class);
         if(annotation==null) {
             throw new IllegalStateException("Class extending AbstractSampleSubscriber has to be annotated with IntegrationSubscriberAnnotation");
