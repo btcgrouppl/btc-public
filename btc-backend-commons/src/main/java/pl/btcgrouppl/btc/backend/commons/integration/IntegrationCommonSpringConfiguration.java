@@ -18,6 +18,7 @@ import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.dsl.core.Pollers;
 import org.springframework.integration.dsl.jms.Jms;
 import org.springframework.integration.dsl.support.Transformers;
+import org.springframework.integration.json.JsonToObjectTransformer;
 import org.springframework.integration.scheduling.PollerMetadata;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.jms.core.JmsTemplate;
@@ -46,6 +47,7 @@ public class IntegrationCommonSpringConfiguration {
     public static final String GENERAL_DIRECT_CHANNEL = "generalDirectChannel";
     public static final String GENERAL_FLOW_IN = "generalFlowIn";
     public static final String GENERAL_FLOW_OUT = "generalFlowOut";
+    public static final String INTEGRATION_HEADERS = "integrationHeaders";
 
 
     /**
@@ -97,6 +99,11 @@ public class IntegrationCommonSpringConfiguration {
     @Bean
     public Jackson2JsonObjectMapper intergationJackson2JsonObjectMapper(@Qualifier(Constants.JSON.SERIALIZERS_SET) ObjectMapper customizedObjectMapper) {
         return new Jackson2JsonObjectMapper(customizedObjectMapper);
+    }
+
+    @Bean
+    public JsonToObjectTransformer integrationMessageJsonToObjectTransformer(Jackson2JsonObjectMapper jackson2JsonObjectMapper) {
+        return new JsonToObjectTransformer(IntegrationMessage.class, jackson2JsonObjectMapper);
     }
 
 }

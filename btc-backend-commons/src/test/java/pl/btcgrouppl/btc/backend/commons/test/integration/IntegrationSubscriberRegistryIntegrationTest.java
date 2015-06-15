@@ -1,6 +1,7 @@
 package pl.btcgrouppl.btc.backend.commons.test.integration;
 
 import com.google.common.collect.Iterables;
+import com.sun.jndi.ldap.pool.PooledConnectionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.integration.channel.PublishSubscribeChannel;
+import org.springframework.jms.listener.DefaultMessageListenerContainer;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -34,6 +37,7 @@ import static tumbler.Tumbler.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = BtcBackendCommonsTestSpringConfiguration.class)
 @TestPropertySource(locations="classpath:test-application.properties")
+@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class IntegrationSubscriberRegistryIntegrationTest {
 
     public static final int MESSAGES_TO_SEND = 1;
@@ -54,6 +58,10 @@ public class IntegrationSubscriberRegistryIntegrationTest {
     @Qualifier(BtcBackendCommonsTestSpringConfiguration.TEST_INSTANCE)
     private IntegrationMessage integrationMessage;
 
+    @After
+    public void tearDown() {
+    }
+
 
     @Test
     public void testSendIntegrationMessages() {
@@ -72,7 +80,9 @@ public class IntegrationSubscriberRegistryIntegrationTest {
         Iterable<IntegrationMessage> integrationMessagesGeneralAndTestChannel = generalAndTestChannelMessageObservable.toIterable();
 
         assertEquals(MESSAGES_TO_SEND, Iterables.size(integrationMessagesGeneralChannel));
-        assertEquals(MESSAGES_TO_SEND*2, Iterables.size(integrationMessagesGeneralAndTestChannel));     //two channels to subscribe
+        assertEquals(MESSAGES_TO_SEND * 2, Iterables.size(integrationMessagesGeneralAndTestChannel));     //two channels to subscribe
     }
+
+
 
 }

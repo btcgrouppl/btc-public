@@ -17,6 +17,8 @@ import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.dsl.jms.Jms;
 import org.springframework.integration.dsl.support.Transformers;
+import org.springframework.integration.json.JsonToObjectTransformer;
+import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.jms.core.JmsTemplate;
 import pl.btcgrouppl.btc.backend.commons.BtcBackendCommonsSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
@@ -72,20 +74,21 @@ public class BtcBackendCommonsTestSpringConfiguration {
 
     @Bean(name = TestConstants.INTEGRATION.TEST_FLOW_OUT)
     @Qualifier(TestConstants.INTEGRATION.TEST_FLOW_OUT)
-    public IntegrationFlow testFlowOut(@Qualifier(TestConstants.INTEGRATION.TEST_CHANNEL_DIRECT) DirectChannel testDirectChannel, JmsTemplate jmsTemplate) {
+    public IntegrationFlow testFlowOut(@Qualifier(TestConstants.INTEGRATION.TEST_CHANNEL_DIRECT) DirectChannel testDirectChannel, JmsTemplate jmsTemplate,
+                                       Jackson2JsonObjectMapper jackson2JsonObjectMapper) {
         return IntegrationFlows.from(testDirectChannel)
-                .transform(Transformers.toJson())   //TODO proper object mapper
-                .handle(Jms.outboundAdapter(jmsTemplate))
+                .transform(Transformers.toJson(jackson2JsonObjectMapper))
+                .handle(Jms.outboundAdapter(jmsTemplate).destination(TestConstants.INTEGRATION.TEST_DESTINATION))
                 .get();
     }
 
     @Bean(name = TestConstants.INTEGRATION.TEST_FLOW_IN)
     @Qualifier(TestConstants.INTEGRATION.TEST_FLOW_IN)
-    public IntegrationFlow testFlowIn(@Qualifier(TestConstants.INTEGRATION.TEST_CHANNEL_PUBSUB) PublishSubscribeChannel testPubSubChannel, JmsTemplate jmsTemplate) {
-        return IntegrationFlows.from(Jms.inboundAdapter(jmsTemplate))
-                .transform(Transformers.fromJson())
-                .channel(testPubSubChannel)     //TODO proper object mapper
+    public IntegrationFlow testFlowIn(@Qualifier(TestConstants.INTEGRATION.TEST_CHANNEL_PUBSUB) PublishSubscribeChannel testPubSubChannel, JmsTemplate jmsTemplate,
+                                      JsonToObjectTransformer integrationMessageJsonToObjectTransformer) {
+        return IntegrationFlows.from(Jms.inboundAdapter(jmsTemplate).destination(TestConstants.INTEGRATION.TEST_DESTINATION))
+                .transform(integrationMessageJsonToObjectTransformer)
+                .channel(testPubSubChannel)
                 .get();
-
     }
 }
