@@ -8,8 +8,8 @@ import org.apache.log4j.Logger;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandExecutorService;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandHandler;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandHandlerRegistry;
-import pl.btcgrouppl.btc.backend.commons.cqrs.models.exceptions.CqrsException;
 import pl.btcgrouppl.btc.backend.commons.cqrs.models.annotations.CommandAnnotation;
+import pl.btcgrouppl.btc.backend.commons.cqrs.models.exceptions.CqrsException;
 import rx.Observable;
 
 import java.util.concurrent.Callable;

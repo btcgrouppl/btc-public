@@ -1,21 +1,18 @@
 package pl.btcgrouppl.btc.backend.commons.test.integration;
 
 import com.google.common.collect.Iterables;
-import com.sun.jndi.ldap.pool.PooledConnectionFactory;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.integration.channel.PublishSubscribeChannel;
-import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import pl.btcgrouppl.btc.backend.commons.Constants;
 import pl.btcgrouppl.btc.backend.commons.integration.IntegrationCommonSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 import pl.btcgrouppl.btc.backend.commons.test.BtcBackendCommonsTestSpringConfiguration;
@@ -24,7 +21,11 @@ import pl.btcgrouppl.btc.backend.commons.test.util.integration.SampleSubscriber2
 import rx.Observable;
 import rx.observables.BlockingObservable;
 
-import static org.junit.Assert.*;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+import static org.junit.Assert.assertEquals;
 import static tumbler.Tumbler.*;
 
 /**
@@ -37,10 +38,12 @@ import static tumbler.Tumbler.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = BtcBackendCommonsTestSpringConfiguration.class)
 @TestPropertySource(locations="classpath:test-application.properties")
-@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class IntegrationSubscriberRegistryIntegrationTest {
 
+    private static final Logger LOG = LoggerFactory.getLogger(IntegrationSubscriberRegistryIntegrationTest.class);
+
     public static final int MESSAGES_TO_SEND = 1;
+    public static final int TIMEOUT = 30;
 
     @Autowired
     private SampleSubscriber1 sampleSubscriber1;
@@ -66,8 +69,10 @@ public class IntegrationSubscriberRegistryIntegrationTest {
     @Test
     public void testSendIntegrationMessages() {
         Given("Initialized messaging server and spring integration");
-        BlockingObservable<IntegrationMessage> generalChannelMessageObservable = sampleSubscriber1.asObservable().toBlocking();
-        BlockingObservable<IntegrationMessage> generalAndTestChannelMessageObservable = sampleSubscriber2.asObservable().toBlocking();      //two channels to subscribe
+        BlockingObservable<IntegrationMessage> generalChannelMessageObservable = sampleSubscriber1.asObservable()
+                .take(MESSAGES_TO_SEND).timeout(TIMEOUT, TimeUnit.SECONDS).toBlocking();
+        BlockingObservable<IntegrationMessage> generalAndTestChannelMessageObservable = sampleSubscriber2.asObservable()
+                .take(MESSAGES_TO_SEND * 2).timeout(TIMEOUT, TimeUnit.SECONDS).toBlocking();      //two channels to subscribe
 
         When("Sending message to publish/subscribe channels");
         for(int i=0; i<MESSAGES_TO_SEND; i++) {
@@ -82,7 +87,5 @@ public class IntegrationSubscriberRegistryIntegrationTest {
         assertEquals(MESSAGES_TO_SEND, Iterables.size(integrationMessagesGeneralChannel));
         assertEquals(MESSAGES_TO_SEND * 2, Iterables.size(integrationMessagesGeneralAndTestChannel));     //two channels to subscribe
     }
-
-
 
 }

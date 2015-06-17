@@ -7,7 +7,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.integration.annotation.IntegrationComponentScan;
-import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.channel.PublishSubscribeChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.dsl.IntegrationFlow;
@@ -18,11 +17,6 @@ import org.springframework.integration.json.JsonToObjectTransformer;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.jms.core.JmsTemplate;
 import pl.btcgrouppl.btc.backend.commons.Constants;
-import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 05.06.15.

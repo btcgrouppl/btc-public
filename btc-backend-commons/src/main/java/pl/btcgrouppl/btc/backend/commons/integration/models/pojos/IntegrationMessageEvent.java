@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHeaders;
 
 import java.util.Collections;
 import java.util.Map;

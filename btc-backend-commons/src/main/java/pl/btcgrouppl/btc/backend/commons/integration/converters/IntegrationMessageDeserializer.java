@@ -12,15 +12,12 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import pl.btcgrouppl.btc.backend.commons.Constants;
 import pl.btcgrouppl.btc.backend.commons.integration.models.factories.IntegrationMessageFactory;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 
-import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 08.06.15.

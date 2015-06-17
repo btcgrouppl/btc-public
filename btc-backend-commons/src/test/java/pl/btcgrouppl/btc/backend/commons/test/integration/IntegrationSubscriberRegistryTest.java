@@ -1,7 +1,5 @@
 package pl.btcgrouppl.btc.backend.commons.test.integration;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,20 +8,16 @@ import org.springframework.integration.channel.PublishSubscribeChannel;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import pl.btcgrouppl.btc.backend.commons.BtcBackendCommonsSpringConfiguration;
-import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 import pl.btcgrouppl.btc.backend.commons.integration.subscribers.IntegrationSubscriber;
 import pl.btcgrouppl.btc.backend.commons.integration.subscribers.impl.IntegrationSubscriberRegistry;
 import pl.btcgrouppl.btc.backend.commons.test.BtcBackendCommonsTestSpringConfiguration;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.Assert.*;
-import static tumbler.Tumbler.Given;
-import static tumbler.Tumbler.Then;
-import static tumbler.Tumbler.When;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static tumbler.Tumbler.*;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 10.06.15.

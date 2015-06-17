@@ -1,7 +1,8 @@
 package pl.btcgrouppl.btc.backend.commons.test.util.integration;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.btcgrouppl.btc.backend.commons.integration.models.annotations.IntegrationSubscriberAnnotation;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessageEvent;
@@ -12,19 +13,15 @@ import rx.functions.Action1;
 import rx.subjects.ReplaySubject;
 import rx.subscriptions.CompositeSubscription;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 11.06.15.
  * <p>
  *     Abstract sample subscriber. Operations connected with testing, like: counting messages etc.
  * </p>
  */
-public class AbstractSampleSubscriber implements IntegrationSubscriber, IntegrationSubscriberHelper, AutoCloseable {
+public abstract class AbstractSampleSubscriber implements IntegrationSubscriber, IntegrationSubscriberHelper, AutoCloseable {
 
-    private static final Logger LOG = LogManager.getLogger(AbstractSampleSubscriber.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractSampleSubscriber.class);
 
     protected ReplaySubject<IntegrationMessage> replaySubject;
     protected CompositeSubscription compositeSubscription;
@@ -32,6 +29,12 @@ public class AbstractSampleSubscriber implements IntegrationSubscriber, Integrat
     public AbstractSampleSubscriber() {
         init();
     }
+
+    /**
+     * Getting subscriber's ID
+     * @return String
+     */
+    public abstract String getSubscriberId();
 
     @Override
     public Observable<IntegrationMessage> asObservable() {
@@ -53,9 +56,9 @@ public class AbstractSampleSubscriber implements IntegrationSubscriber, Integrat
 
     @Override
     public void onIntegrationMessage(IntegrationMessageEvent integrationMessageEvent) {
-        LOG.debug("Sample subscriber1: " + integrationMessageEvent);
-        LOG.debug("Sample subscriber1 headers: " + integrationMessageEvent.getHeaders());
-        LOG.debug("Sample subscriber1 message body: " + integrationMessageEvent.getIntegrationMessageBody());
+        LOG.debug("Sample subscriber " + getSubscriberId() + ": " + integrationMessageEvent);
+        LOG.debug("Sample subscriber " + getSubscriberId() + ":  headers: " + integrationMessageEvent.getHeaders());
+        LOG.debug("Sample subscriber " + getSubscriberId() + ":  message body: " + integrationMessageEvent.getIntegrationMessageBody());
         IntegrationMessage integrationMessage = integrationMessageEvent.getIntegrationMessage();
         notify(integrationMessage);     //Notify RX subject
     }
@@ -68,6 +71,7 @@ public class AbstractSampleSubscriber implements IntegrationSubscriber, Integrat
 
     private void init() {
         replaySubject = ReplaySubject.create();
+        compositeSubscription = new CompositeSubscription();
         IntegrationSubscriberAnnotation annotation = this.getClass().getAnnotation(IntegrationSubscriberAnnotation.class);
         if(annotation==null) {
             throw new IllegalStateException("Class extending AbstractSampleSubscriber has to be annotated with IntegrationSubscriberAnnotation");
