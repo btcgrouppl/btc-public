@@ -1,4 +1,4 @@
-package pl.btcgrouppl.btc.backend.commons.cqrs.exceptions;
+package pl.btcgrouppl.btc.backend.commons.cqrs.models.exceptions;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 20.05.15.

@@ -11,7 +11,7 @@ public interface CommandExecutorService {
     /**
      * <p>
      *     Executing requested command. Getting CommandHandler for command class. Additionally, getting info about
-     *     {@link pl.btcgrouppl.btc.backend.commons.cqrs.annotations.CommandAnnotation} annotation. If it's
+     *     {@link pl.btcgrouppl.btc.backend.commons.cqrs.models.annotations.CommandAnnotation} annotation. If it's
      *     async command, passing it to executor, and returning Future
      * </p>
      *

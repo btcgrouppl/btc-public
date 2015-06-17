@@ -1,6 +1,4 @@
-package pl.btcgrouppl.btc.backend.commons.cqrs.annotations;
-
-import lombok.Data;
+package pl.btcgrouppl.btc.backend.commons.cqrs.models.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

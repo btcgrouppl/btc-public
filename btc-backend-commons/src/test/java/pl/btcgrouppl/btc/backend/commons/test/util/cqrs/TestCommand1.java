@@ -2,9 +2,8 @@ package pl.btcgrouppl.btc.backend.commons.test.util.cqrs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import pl.btcgrouppl.btc.backend.commons.cqrs.annotations.CommandAnnotation;
+import lombok.NoArgsConstructor;
+import pl.btcgrouppl.btc.backend.commons.cqrs.models.annotations.CommandAnnotation;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 20.05.15.
@@ -15,9 +14,9 @@ import pl.btcgrouppl.btc.backend.commons.cqrs.annotations.CommandAnnotation;
  */
 @CommandAnnotation(isAsync = false)
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class TestCommand1 {
 
-    @NonNull
     private String sampleField;
 }

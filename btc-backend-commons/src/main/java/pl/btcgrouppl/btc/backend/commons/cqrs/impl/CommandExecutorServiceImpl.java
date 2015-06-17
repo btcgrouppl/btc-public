@@ -1,17 +1,15 @@
 package pl.btcgrouppl.btc.backend.commons.cqrs.impl;
 
-import ch.qos.logback.core.util.ExecutorServiceUtil;
 import com.google.common.base.Preconditions;
 import lombok.Data;
 import lombok.NonNull;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.DisposableBean;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandExecutorService;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandHandler;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandHandlerRegistry;
-import pl.btcgrouppl.btc.backend.commons.cqrs.annotations.CommandAnnotation;
-import pl.btcgrouppl.btc.backend.commons.cqrs.exceptions.CqrsException;
+import pl.btcgrouppl.btc.backend.commons.cqrs.models.annotations.CommandAnnotation;
+import pl.btcgrouppl.btc.backend.commons.cqrs.models.exceptions.CqrsException;
 import rx.Observable;
 
 import java.util.concurrent.Callable;
@@ -46,7 +44,7 @@ public class CommandExecutorServiceImpl implements CommandExecutorService, AutoC
      * If you manually create this object, do it by this command
      * @param executorService
      * @param commandHandlerRegistry
-     * @throws pl.btcgrouppl.btc.backend.commons.cqrs.exceptions.CqrsException if no command hander for command, or execution error
+     * @throws pl.btcgrouppl.btc.backend.commons.cqrs.models.exceptions.CqrsException if no command hander for command, or execution error
      */
     public static CommandExecutorServiceImpl create(ExecutorService executorService, CommandHandlerRegistry commandHandlerRegistry) {
         executorService = Preconditions.checkNotNull(executorService);
