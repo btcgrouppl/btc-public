@@ -1,4 +1,4 @@
-package pl.btcgrouppl.btc.backend.commons.ddd;
+package pl.btcgrouppl.btc.backend.commons.ddd.events;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 24.06.15.
