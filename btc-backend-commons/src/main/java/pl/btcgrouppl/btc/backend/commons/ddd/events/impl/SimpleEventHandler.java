@@ -3,6 +3,7 @@ package pl.btcgrouppl.btc.backend.commons.ddd.events.impl;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.Scope;
@@ -20,6 +21,7 @@ import java.lang.reflect.Method;
  * </p>
  */
 @Getter
+@RequiredArgsConstructor
 public class SimpleEventHandler implements EventHandler {
 
     private static final Logger LOG = LogManager.getLogger(SimpleEventHandler.class);

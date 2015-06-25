@@ -5,14 +5,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.AsyncEventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.models.exceptions.EventExecutionException;
 import pl.btcgrouppl.btc.backend.commons.utils.impl.BtcContext;
-import rx.subjects.AsyncSubject;
-import rx.subjects.PublishSubject;
 
 import java.util.concurrent.ExecutorService;
 
@@ -24,9 +20,9 @@ import java.util.concurrent.ExecutorService;
  */
 @RequiredArgsConstructor
 @Getter
-public class EventHandlerAsyncWrapper implements AsyncEventHandler {
+public class AsyncEventHandlerWrapper implements AsyncEventHandler {
 
-    private static final Logger LOG = LogManager.getLogger(EventHandlerAsyncWrapper.class);
+    private static final Logger LOG = LogManager.getLogger(AsyncEventHandlerWrapper.class);
 
     @NonNull
     private EventHandler wrappedEventHandler;

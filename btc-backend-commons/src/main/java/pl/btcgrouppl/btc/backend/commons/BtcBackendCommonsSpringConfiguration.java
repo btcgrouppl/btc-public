@@ -1,6 +1,7 @@
 package pl.btcgrouppl.btc.backend.commons;
 
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,7 +12,12 @@ import org.springframework.integration.config.EnableIntegration;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandExecutorService;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandHandlerRegistry;
 import pl.btcgrouppl.btc.backend.commons.cqrs.impl.CommandExecutorServiceFactoryBean;
+import pl.btcgrouppl.btc.backend.commons.ddd.events.EventPublisher;
+import pl.btcgrouppl.btc.backend.commons.ddd.events.impl.DelegatingEventPublisher;
 import pl.btcgrouppl.btc.backend.commons.integration.IntegrationCommonSpringConfiguration;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 20.05.15.
@@ -27,5 +33,15 @@ public class BtcBackendCommonsSpringConfiguration {
     @Bean
     public FactoryBean<CommandExecutorService> commandExecutorService(CommandHandlerRegistry commandHandlerRegistry) {
         return new CommandExecutorServiceFactoryBean(commandHandlerRegistry);
+    }
+
+    @Bean
+    @Qualifier("delegatingEventPublisher")
+    public EventPublisher delegatingEventPubisher(@Qualifier("defaultEventPublisher") EventPublisher defaultEventPublisher,
+                                                  @Qualifier("integrationEventPublisher") EventPublisher integrationEventPublisher) {
+        List<EventPublisher> publisherList = new LinkedList<>();
+        publisherList.add(defaultEventPublisher);
+        publisherList.add(integrationEventPublisher);
+        return new DelegatingEventPublisher(publisherList);
     }
 }

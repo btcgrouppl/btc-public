@@ -2,10 +2,14 @@ package pl.btcgrouppl.btc.backend.commons.ddd.events.impl;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
+import pl.btcgrouppl.btc.backend.commons.ddd.events.EventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventPublisher;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 24.06.15.
@@ -17,6 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DelegatingEventPublisher implements EventPublisher {
 
+    private static final Logger LOG = LogManager.getLogger(DelegatingEventPublisher.class);
+
     @NonNull
     private List<EventPublisher> eventPublisherList;
 
@@ -24,6 +30,23 @@ public class DelegatingEventPublisher implements EventPublisher {
     public void publish(Object event) {
         for(EventPublisher item: eventPublisherList) {
             item.publish(event);    //TODO some conditions would be awesome --> ContitionalEvent interface and ConditionalEventAware interface
+        }
+    }
+
+    @Override
+    public Set<EventHandler> getHandlers() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void addHandler(EventHandler eventHandler) {
+        for(EventPublisher item: eventPublisherList) {
+            try {
+                item.addHandler(eventHandler);
+            }
+            catch(UnsupportedOperationException e) {
+                LOG.error("Error while adding event handler for publisher.", e);
+            }
         }
     }
 }
