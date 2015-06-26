@@ -20,19 +20,25 @@ public class EventExecutionException extends RuntimeException {
      */
     public enum TYPE {
         METHOD_INVOKE_FAIL,
-        EVENT_DISPATCH_FAIL
+        EVENT_DISPATCH_FAIL,
+        LISTENER_WRONG_PASS_CONDITION
     }
+
+    private TYPE type;
 
     private EventExecutionException(String message, TYPE type) {
         super(message);
+        this.type = type;
     }
 
     private EventExecutionException(String message, Throwable cause, TYPE type) {
         super(message, cause);
+        this.type = type;
     }
 
     private EventExecutionException(Throwable cause, TYPE type) {
         super(cause);
+        this.type = type;
     }
 
     public static EventExecutionException create(@NonNull String message, @NonNull TYPE type) {
@@ -47,4 +53,13 @@ public class EventExecutionException extends RuntimeException {
         return new EventExecutionException(cause, type);
     }
 
+    @Override
+    public String getMessage() {
+        return "EventExecutionException:::" + getType() + ". Error during event execution (dispatch or passing to subscriber): " + super.getMessage();
+    }
+
+    @Override
+    public String toString() {
+        return getMessage();
+    }
 }

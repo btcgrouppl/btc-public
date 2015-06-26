@@ -1,5 +1,12 @@
 package pl.btcgrouppl.btc.backend.commons.ddd.models.annotations;
 
+import org.springframework.stereotype.Component;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 25.06.15.
  * <p>
@@ -8,6 +15,8 @@ package pl.btcgrouppl.btc.backend.commons.ddd.models.annotations;
  *     introduces EventListener annotation and PayloadApplicationEvent
  * </p>
  */
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 public @interface EventListenerAnnotation {
 
     /**

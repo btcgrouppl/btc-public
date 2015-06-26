@@ -29,7 +29,7 @@ public class DelegatingEventPublisher implements EventPublisher {
     @Override
     public void publish(Object event) {
         for(EventPublisher item: eventPublisherList) {
-            item.publish(event);    //TODO some conditions would be awesome --> ContitionalEvent interface and ConditionalEventAware interface
+            item.publish(event);
         }
     }
 

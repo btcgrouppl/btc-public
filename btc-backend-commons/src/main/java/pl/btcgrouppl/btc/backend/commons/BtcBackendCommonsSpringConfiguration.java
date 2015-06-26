@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.config.EnableIntegration;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandExecutorService;
@@ -43,5 +45,10 @@ public class BtcBackendCommonsSpringConfiguration {
         publisherList.add(defaultEventPublisher);
         publisherList.add(integrationEventPublisher);
         return new DelegatingEventPublisher(publisherList);
+    }
+
+    @Bean
+    public ExpressionParser spelExpressionParser() {
+        return new SpelExpressionParser();
     }
 }
