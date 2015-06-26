@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.AsyncEventHandler;
+import pl.btcgrouppl.btc.backend.commons.ddd.events.ConditionalEventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.models.exceptions.EventExecutionException;
 import pl.btcgrouppl.btc.backend.commons.utils.impl.BtcContext;
@@ -20,7 +21,7 @@ import java.util.concurrent.ExecutorService;
  */
 @RequiredArgsConstructor
 @Getter
-public class AsyncEventHandlerWrapper implements AsyncEventHandler {
+public class AsyncEventHandlerWrapper implements AsyncEventHandler, ConditionalEventHandler {
 
     private static final Logger LOG = LogManager.getLogger(AsyncEventHandlerWrapper.class);
 
@@ -51,5 +52,12 @@ public class AsyncEventHandlerWrapper implements AsyncEventHandler {
      */
     @Override
     public void onFailure(Exception e) {
+    }
+
+    @Override
+    public boolean isEventApplicable(Object event) {
+        return (wrappedEventHandler instanceof ConditionalEventHandler)
+                ? ((ConditionalEventHandler)wrappedEventHandler).isEventApplicable(event)
+                : true;
     }
 }

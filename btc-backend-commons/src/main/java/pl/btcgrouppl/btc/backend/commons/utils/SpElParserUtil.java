@@ -10,6 +10,8 @@ import java.util.Map;
  */
 public interface SpElParserUtil {
 
+    public static final String SPEL_EVENT_ARG_NAME = "event";
+
     /**
      * Parsing expression with root variable
      * @param expression

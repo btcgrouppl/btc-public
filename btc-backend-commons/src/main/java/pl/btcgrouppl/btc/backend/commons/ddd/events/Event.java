@@ -12,7 +12,7 @@ public interface Event {
 
     /**
      * Getting unique ID for event
-     * @return
+     * @return UUID
      */
     UUID getId();
 }

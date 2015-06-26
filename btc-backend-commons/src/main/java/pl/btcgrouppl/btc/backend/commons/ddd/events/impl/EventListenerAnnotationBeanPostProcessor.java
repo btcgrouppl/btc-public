@@ -3,10 +3,13 @@ package pl.btcgrouppl.btc.backend.commons.ddd.events.impl;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventPublisher;
 import pl.btcgrouppl.btc.backend.commons.ddd.models.annotations.EventListenerAnnotation;
+import pl.btcgrouppl.btc.backend.commons.utils.SpElParserUtil;
 
 import java.lang.reflect.Method;
 
@@ -20,11 +23,13 @@ import java.lang.reflect.Method;
 @Component
 public class EventListenerAnnotationBeanPostProcessor implements BeanPostProcessor {
 
-    private EventPublisher delegatingEventPublisher;
+    private final EventPublisher delegatingEventPublisher;
+    private final SpElParserUtil spElParserUtil;
 
     @Autowired
-    public EventListenerAnnotationBeanPostProcessor(EventPublisher delegatingEventPublisher) {
+    public EventListenerAnnotationBeanPostProcessor(EventPublisher delegatingEventPublisher, SpElParserUtil spElParserUtil) {
         this.delegatingEventPublisher = delegatingEventPublisher;
+        this.spElParserUtil = spElParserUtil;
     }
 
     @Override
@@ -38,7 +43,10 @@ public class EventListenerAnnotationBeanPostProcessor implements BeanPostProcess
         for(Method method: publicMethods) {
             if(method.isAnnotationPresent(EventListenerAnnotation.class)) {
                 EventListenerAnnotation annotation = method.getAnnotation(EventListenerAnnotation.class);
-                EventHandler handler = new SimpleEventHandler(method, o);
+                EventHandler handler = SimpleEventHandler.builder()
+                        .instance(o)
+                        .spElParserUtil(spElParserUtil)
+                        .wrappedMethod(method).build();
                 if(annotation.isAsync()) {
                     handler = new AsyncEventHandlerWrapper(handler);
                 }
