@@ -26,7 +26,7 @@ public class AsyncEventHandlerWrapper implements AsyncEventHandler, ConditionalE
     private static final Logger LOG = LogManager.getLogger(AsyncEventHandlerWrapper.class);
 
     @NonNull
-    private EventHandler wrappedEventHandler;
+    protected EventHandler wrappedEventHandler;
 
     @Override
     public void handle(final Object event) {

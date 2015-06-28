@@ -33,7 +33,7 @@ public class SimpleEventHandlerTest {
     private static final Logger LOG = LogManager.getLogger(SimpleEventHandlerTest.class);
 
     @Autowired
-    private SpElParserUtil spElParserUtilImpl;
+    private SpElParserUtil spElParserUtilImpl; //TODO add mockito here
 
 
     @Before
