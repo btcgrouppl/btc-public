@@ -15,6 +15,9 @@ import pl.btcgrouppl.btc.backend.commons.ddd.events.impl.SimpleEventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.models.annotations.EventConditionAnnotation;
 import pl.btcgrouppl.btc.backend.commons.ddd.models.annotations.EventListenerAnnotation;
 import pl.btcgrouppl.btc.backend.commons.ddd.models.exceptions.EventExecutionException;
+import pl.btcgrouppl.btc.backend.commons.test.util.ddd.DddUtil;
+import pl.btcgrouppl.btc.backend.commons.test.util.ddd.RxAsyncEventHandlerWrapper;
+import pl.btcgrouppl.btc.backend.commons.test.util.ddd.TestEventConsumer;
 import pl.btcgrouppl.btc.backend.commons.utils.SpElParserUtil;
 import rx.Observable;
 import rx.observables.BlockingObservable;
@@ -40,7 +43,7 @@ public class AsyncEventHandlerWrapperTest {
     public void testHandle() throws Exception {
         Given("Initialized async handler wrapper, and wrapped SimpleEventHandler");
         TestEventConsumer testEventConsumer = new TestEventConsumer();
-        SimpleEventHandler testEventHandler = new SimpleEventHandler(getConsumerMethod(testEventConsumer), testEventConsumer, spElParserUtilImpl);
+        SimpleEventHandler testEventHandler = new SimpleEventHandler(DddUtil.getConsumerMethod(testEventConsumer), testEventConsumer, spElParserUtilImpl);
         RxAsyncEventHandlerWrapper testRxAsyncEventHandlerWrapper = new RxAsyncEventHandlerWrapper(testEventHandler);
 
         When("Invoking async handler wrapper");
@@ -58,7 +61,7 @@ public class AsyncEventHandlerWrapperTest {
     public void testOnFailure() throws Exception {
         Given("Initialized async handler wrapper, and wrapped SimpleEventHandler");
         ExceptionEventConsumer testEventConsumer = new ExceptionEventConsumer();
-        SimpleEventHandler testEventHandler = new SimpleEventHandler(getConsumerMethod(testEventConsumer), testEventConsumer, spElParserUtilImpl);
+        SimpleEventHandler testEventHandler = new SimpleEventHandler(DddUtil.getConsumerMethod(testEventConsumer), testEventConsumer, spElParserUtilImpl);
         RxAsyncEventHandlerWrapper testRxAsyncEventHandlerWrapper = new RxAsyncEventHandlerWrapper(testEventHandler);
 
         When("Invoking async handler wrapper, exception is expected during execution");
@@ -76,7 +79,7 @@ public class AsyncEventHandlerWrapperTest {
     public void testIsEventApplicable() throws Exception {
         Given("Initialized async handler wrapper, and wrapped SimpleEventHandler");
         TestEventConsumerConditional testEventConsumer = new TestEventConsumerConditional();
-        SimpleEventHandler testEventHandler = new SimpleEventHandler(getConsumerMethod(testEventConsumer), testEventConsumer, spElParserUtilImpl);
+        SimpleEventHandler testEventHandler = new SimpleEventHandler(DddUtil.getConsumerMethod(testEventConsumer), testEventConsumer, spElParserUtilImpl);
         RxAsyncEventHandlerWrapper testRxAsyncEventHandlerWrapper = new RxAsyncEventHandlerWrapper(testEventHandler);
         TestObject testObject = TestObject.builder().x(22).build();
 
@@ -85,62 +88,6 @@ public class AsyncEventHandlerWrapperTest {
 
         Then("Proper result should be returned");
         assertTrue(actual);
-    }
-
-    /**
-     * Getting consumer method
-     * @return Method
-     */
-    protected Method getConsumerMethod(Object source) {
-        Class<?> aClass = source.getClass();
-        Method[] methods = aClass.getMethods();
-        for(Method item: methods) {
-            if(item.isAnnotationPresent(EventListenerAnnotation.class)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * RX async version of event handler
-     */
-    private final class RxAsyncEventHandlerWrapper extends AsyncEventHandlerWrapper {
-
-        private PublishSubject<Boolean> executionSubject = PublishSubject.create();
-
-        public RxAsyncEventHandlerWrapper(EventHandler wrappedEventHandler) {
-            super(wrappedEventHandler);
-        }
-
-        @Override
-        public void handle(Object event) {
-            executionSubject.onNext(Boolean.TRUE);
-            super.handle(event);
-        }
-
-        @Override
-        public void onFailure(Exception e) {
-            super.onFailure(e);
-            executionSubject.onNext(Boolean.FALSE);
-        }
-
-        public Observable<Boolean> asObservable() {
-            return executionSubject.asObservable();
-        }
-    }
-
-    /**
-     * Event consumer without any conditions
-     */
-    private class TestEventConsumer {
-
-        public boolean consumed = false;
-
-        @EventListenerAnnotation
-        public void consume(Object event) {
-            consumed = true;
-        }
     }
 
     /**

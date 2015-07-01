@@ -17,6 +17,8 @@ import pl.btcgrouppl.btc.backend.commons.ddd.models.annotations.EventConditionAn
 import pl.btcgrouppl.btc.backend.commons.ddd.models.annotations.EventListenerAnnotation;
 import pl.btcgrouppl.btc.backend.commons.ddd.models.exceptions.EventExecutionException;
 import pl.btcgrouppl.btc.backend.commons.test.BtcBackendCommonsTestSpringConfiguration;
+import pl.btcgrouppl.btc.backend.commons.test.util.ddd.DddUtil;
+import pl.btcgrouppl.btc.backend.commons.test.util.ddd.TestEventConsumer;
 import pl.btcgrouppl.btc.backend.commons.utils.SpElParserUtil;
 
 import java.lang.reflect.Method;
@@ -68,7 +70,7 @@ public class SimpleEventHandlerTest {
         nonConditionalEventHandler.handle(trueConditionalEvent);
 
         Then("TRUE boolean value should be returned");
-        assertTrue(testEventConsumer.consumed);
+        assertTrue(testEventConsumer.isConsumed());
         assertTrue(testEventConsumerConditional.consumed);
     }
 
@@ -93,7 +95,7 @@ public class SimpleEventHandlerTest {
      * @return EventHandler
      */
     protected EventHandler buildEventHandler(Object testEventConsumer) {
-        Method consumerMethod = getConsumerMethod(testEventConsumer);
+        Method consumerMethod = DddUtil.getConsumerMethod(testEventConsumer);
         if(consumerMethod==null) {
             throw new RuntimeException("Consumer method is null!");
         }
@@ -106,41 +108,12 @@ public class SimpleEventHandlerTest {
 
     protected EventHandler buildFakeEventHandler() {
         TestEventConsumer testEventConsumer = new TestEventConsumer();
-        Method consumerMethod = getConsumerMethod(testEventConsumer);
+        Method consumerMethod = DddUtil.getConsumerMethod(testEventConsumer);
         return SimpleEventHandler.builder()
                 .instance(new Object())
                 .spElParserUtil(spElParserUtilImpl)
                 .wrappedMethod(consumerMethod)
                 .build();
-    }
-
-    /**
-     * Getting consumer method
-     * @return Method
-     */
-    protected Method getConsumerMethod(Object source) {
-        Class<?> aClass = source.getClass();
-        Method[] methods = aClass.getMethods();
-        for(Method item: methods) {
-            if(item.isAnnotationPresent(EventListenerAnnotation.class)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-
-    /**
-     * Event consumer without any conditions
-     */
-    private class TestEventConsumer {
-
-        public boolean consumed = false;
-
-        @EventListenerAnnotation
-        public void consume(Object event) {
-            consumed = true;
-        }
     }
 
     /**
