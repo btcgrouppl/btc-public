@@ -4,12 +4,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventPublisher;
-import pl.btcgrouppl.btc.backend.commons.integration.IntegrationCommonSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 import pl.btcgrouppl.btc.backend.commons.test.BtcBackendCommonsTestSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.test.util.integration.AbstractSampleSubscriber;
@@ -17,10 +15,8 @@ import rx.observables.BlockingObservable;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
-import static tumbler.Tumbler.Given;
-import static tumbler.Tumbler.Then;
-import static tumbler.Tumbler.When;
+import static org.junit.Assert.assertEquals;
+import static tumbler.Tumbler.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = IntegrationEventPublisherTest.class)

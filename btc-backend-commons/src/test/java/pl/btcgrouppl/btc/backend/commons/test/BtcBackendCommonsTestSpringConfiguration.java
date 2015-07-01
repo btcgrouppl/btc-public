@@ -1,5 +1,6 @@
 package pl.btcgrouppl.btc.backend.commons.test;
 
+import org.mockito.ArgumentMatcher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -23,9 +24,14 @@ import org.springframework.jms.core.JmsTemplate;
 import pl.btcgrouppl.btc.backend.commons.BtcBackendCommonsSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 import pl.btcgrouppl.btc.backend.commons.test.util.cqrs.TestCommand1;
+import pl.btcgrouppl.btc.backend.commons.utils.SpElParserUtil;
 
 import java.util.UUID;
 import java.util.concurrent.Executors;
+
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 10.06.15.
@@ -42,6 +48,8 @@ import java.util.concurrent.Executors;
 public class BtcBackendCommonsTestSpringConfiguration {
 
     public static final String TEST_INSTANCE = "TEST_INSTANCE";
+    public static final String MOCK_INSTANCE = "MOCK_INSTANCE";
+
 
     @Bean
     @Qualifier(TEST_INSTANCE)
@@ -91,4 +99,36 @@ public class BtcBackendCommonsTestSpringConfiguration {
                 .channel(testPubSubChannel)
                 .get();
     }
+
+    /**
+     * Mocked version of SpElParserUtil class.
+     * @return SpElParserUtil
+     */
+    @Bean
+    @Qualifier(MOCK_INSTANCE)
+    public SpElParserUtil mockParserUtil() {
+        SpElParserUtil mockSpElParserUtil = mock(SpElParserUtil.class);
+
+        when(mockSpElParserUtil.parseExpression(
+                TestConstants.DDD.SPEL_CONDITIONAL_EXPRESSION, argThat(new ArgumentMatcher<Object>() {
+                    @Override
+                    public boolean matches(Object argument) {
+                        return false;
+                    }
+                }), Boolean.class
+        )).thenReturn(Boolean.TRUE);
+
+        when(mockSpElParserUtil.parseExpression(
+                TestConstants.DDD.SPEL_CONDITIONAL_EXPRESSION, argThat(new ArgumentMatcher<Object>() {
+                    @Override
+                    public boolean matches(Object argument) {
+                        return false;
+                    }
+                }), Boolean.class
+        )).thenReturn(Boolean.FALSE);
+
+        return mockSpElParserUtil;
+    }
+
+
 }

@@ -1,6 +1,5 @@
 package pl.btcgrouppl.btc.backend.commons.ddd.events;
 
-import java.util.List;
 import java.util.Set;
 
 /**

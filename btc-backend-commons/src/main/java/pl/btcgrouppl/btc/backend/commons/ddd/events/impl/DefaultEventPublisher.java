@@ -3,9 +3,7 @@ package pl.btcgrouppl.btc.backend.commons.ddd.events.impl;
 import lombok.NonNull;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.ConditionalEventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.ConditionalEventHandlerAware;
@@ -13,7 +11,9 @@ import pl.btcgrouppl.btc.backend.commons.ddd.events.EventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventPublisher;
 import pl.btcgrouppl.btc.backend.commons.utils.models.exceptions.SpElParseException;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 24.06.15.

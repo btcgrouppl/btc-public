@@ -16,4 +16,8 @@ public interface TestConstants {
         public static final String TEST_FLOW_IN = "testFlowIn";
         public static final String TEST_FLOW_OUT = "testFlowOut";
     }
+
+    interface DDD {
+        public static final String SPEL_CONDITIONAL_EXPRESSION = "#{x>20}";
+    }
 }

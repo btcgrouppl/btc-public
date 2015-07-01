@@ -1,26 +1,22 @@
 package pl.btcgrouppl.btc.backend.commons.ddd.events.impl;
 
 import com.google.common.base.Strings;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.context.annotation.Scope;
-import org.springframework.expression.EvaluationException;
-import org.springframework.expression.ParseException;
-import org.springframework.expression.spel.InternalParseException;
-import org.springframework.stereotype.Component;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.ConditionalEventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.models.annotations.EventConditionAnnotation;
 import pl.btcgrouppl.btc.backend.commons.ddd.models.exceptions.EventExecutionException;
 import pl.btcgrouppl.btc.backend.commons.utils.SpElParserUtil;
-import pl.btcgrouppl.btc.backend.commons.utils.impl.SpElParserUtilImpl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 25.06.15.

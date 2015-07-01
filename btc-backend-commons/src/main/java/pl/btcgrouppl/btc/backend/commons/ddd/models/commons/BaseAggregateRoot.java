@@ -1,6 +1,8 @@
 package pl.btcgrouppl.btc.backend.commons.ddd.models.commons;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
 import java.util.UUID;

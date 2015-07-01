@@ -9,26 +9,24 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventPublisher;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.impl.SimpleEventHandler;
-import pl.btcgrouppl.btc.backend.commons.ddd.models.annotations.EventListenerAnnotation;
+import pl.btcgrouppl.btc.backend.commons.test.BtcBackendCommonsTestSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.test.util.ddd.DddUtil;
 import pl.btcgrouppl.btc.backend.commons.test.util.ddd.RxAsyncEventHandlerWrapper;
 import pl.btcgrouppl.btc.backend.commons.test.util.ddd.TestEventConsumer;
 import pl.btcgrouppl.btc.backend.commons.utils.SpElParserUtil;
 import rx.observables.BlockingObservable;
 
-import java.lang.reflect.Method;
-
-import static org.junit.Assert.*;
-import static tumbler.Tumbler.Given;
-import static tumbler.Tumbler.Then;
-import static tumbler.Tumbler.When;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static tumbler.Tumbler.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = {DefaultEventPublisherTest.class})
 public class DefaultEventPublisherTest {
 
     @Autowired
-    private SpElParserUtil spElParserUtilImpl;
+    @Qualifier(BtcBackendCommonsTestSpringConfiguration.MOCK_INSTANCE)
+    private SpElParserUtil mockSpElParserUtil;
 
     @Autowired
     @Qualifier("defaultEventPublisher")
@@ -39,7 +37,7 @@ public class DefaultEventPublisherTest {
         Given("Initialized instance, created TestEventConsumer, and created RxAsyncEventHandlerWrapper");
         TestEventConsumer testEventConsumer = new TestEventConsumer();
         RxAsyncEventHandlerWrapper rxAsyncEventHandlerWrapper = new RxAsyncEventHandlerWrapper(new SimpleEventHandler(
-                DddUtil.getConsumerMethod(testEventConsumer), testEventConsumer, spElParserUtilImpl
+                DddUtil.getConsumerMethod(testEventConsumer), testEventConsumer, mockSpElParserUtil
         ));
         BlockingObservable<Boolean> booleanBlockingObservable = rxAsyncEventHandlerWrapper.asObservable().toBlocking();
 
@@ -55,7 +53,7 @@ public class DefaultEventPublisherTest {
         Given("Initialized instance, created TestEventConsumer, and created RxAsyncEventHandlerWrapper");
         TestEventConsumer testEventConsumer = new TestEventConsumer();
         RxAsyncEventHandlerWrapper rxAsyncEventHandlerWrapper = new RxAsyncEventHandlerWrapper(new SimpleEventHandler(
-                DddUtil.getConsumerMethod(testEventConsumer), testEventConsumer, spElParserUtilImpl
+                DddUtil.getConsumerMethod(testEventConsumer), testEventConsumer, mockSpElParserUtil
         ));
         defaultEventPublisher.addHandler(rxAsyncEventHandlerWrapper);
         BlockingObservable<Boolean> booleanBlockingObservable = rxAsyncEventHandlerWrapper.asObservable().toBlocking();

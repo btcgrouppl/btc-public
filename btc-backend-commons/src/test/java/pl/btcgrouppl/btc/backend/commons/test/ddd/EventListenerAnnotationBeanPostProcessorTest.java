@@ -1,7 +1,5 @@
 package pl.btcgrouppl.btc.backend.commons.test.ddd;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.BeansException;
@@ -15,10 +13,9 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventPublisher;
 import pl.btcgrouppl.btc.backend.commons.test.util.ddd.TestEventConsumer;
 
-import static org.junit.Assert.*;
-import static tumbler.Tumbler.Given;
-import static tumbler.Tumbler.Then;
-import static tumbler.Tumbler.When;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static tumbler.Tumbler.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = {DefaultEventPublisherTest.class})

@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -18,12 +17,9 @@ import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMes
 import pl.btcgrouppl.btc.backend.commons.test.BtcBackendCommonsTestSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.test.util.integration.SampleSubscriber1;
 import pl.btcgrouppl.btc.backend.commons.test.util.integration.SampleSubscriber2;
-import rx.Observable;
 import rx.observables.BlockingObservable;
 
-import java.util.Collections;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import static org.junit.Assert.assertEquals;
 import static tumbler.Tumbler.*;

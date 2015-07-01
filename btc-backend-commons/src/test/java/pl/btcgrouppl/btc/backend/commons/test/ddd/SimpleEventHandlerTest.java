@@ -1,32 +1,30 @@
 package pl.btcgrouppl.btc.backend.commons.test.ddd;
 
-import lombok.Builder;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import pl.btcgrouppl.btc.backend.commons.ddd.events.ConditionalEventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.impl.SimpleEventHandler;
-import pl.btcgrouppl.btc.backend.commons.ddd.models.annotations.EventConditionAnnotation;
-import pl.btcgrouppl.btc.backend.commons.ddd.models.annotations.EventListenerAnnotation;
 import pl.btcgrouppl.btc.backend.commons.ddd.models.exceptions.EventExecutionException;
 import pl.btcgrouppl.btc.backend.commons.test.BtcBackendCommonsTestSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.test.util.ddd.DddUtil;
 import pl.btcgrouppl.btc.backend.commons.test.util.ddd.TestEventConsumer;
+import pl.btcgrouppl.btc.backend.commons.test.util.ddd.TestEventConsumerConditional;
+import pl.btcgrouppl.btc.backend.commons.test.util.ddd.TestObject;
 import pl.btcgrouppl.btc.backend.commons.utils.SpElParserUtil;
 
 import java.lang.reflect.Method;
 
-import static org.junit.Assert.*;
-import static tumbler.Tumbler.Given;
-import static tumbler.Tumbler.Then;
-import static tumbler.Tumbler.When;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static tumbler.Tumbler.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = SimpleEventHandlerTest.class)
@@ -35,7 +33,8 @@ public class SimpleEventHandlerTest {
     private static final Logger LOG = LogManager.getLogger(SimpleEventHandlerTest.class);
 
     @Autowired
-    private SpElParserUtil spElParserUtilImpl; //TODO add mockito here
+    @Qualifier(BtcBackendCommonsTestSpringConfiguration.MOCK_INSTANCE)
+    private SpElParserUtil mockSpElParserUtil;
 
 
     @Before
@@ -48,7 +47,7 @@ public class SimpleEventHandlerTest {
         EventHandler testEventHandler = buildFakeEventHandler();
 
         When("Passing event to testEventHandler");
-        testEventHandler.handle(new TestObject(20, "Test"));
+        testEventHandler.handle(TestObject.builder().x(20).y("Test").build());
 
         Then("EventExecutionException should be thrown");
     }
@@ -71,7 +70,7 @@ public class SimpleEventHandlerTest {
 
         Then("TRUE boolean value should be returned");
         assertTrue(testEventConsumer.isConsumed());
-        assertTrue(testEventConsumerConditional.consumed);
+        assertTrue(testEventConsumerConditional.isConsumed());
     }
 
     @Test
@@ -85,7 +84,7 @@ public class SimpleEventHandlerTest {
         conditionalEventHandler.handle(falseConditionalEvent);
 
         Then("FALSE boolean value should be returned on conditional consumer");
-        assertFalse(testEventConsumerConditional.consumed);
+        assertFalse(testEventConsumerConditional.isConsumed());
     }
 
 
@@ -102,40 +101,22 @@ public class SimpleEventHandlerTest {
         EventHandler simpleEventHandler = SimpleEventHandler.builder()
                 .instance(consumerMethod)
                 .wrappedMethod(consumerMethod)
-                .spElParserUtil(spElParserUtilImpl).build();
+                .spElParserUtil(mockSpElParserUtil).build();
         return simpleEventHandler;
     }
 
+    /**
+     * Building fake event handler (for exceptions)
+     * @return
+     */
     protected EventHandler buildFakeEventHandler() {
         TestEventConsumer testEventConsumer = new TestEventConsumer();
         Method consumerMethod = DddUtil.getConsumerMethod(testEventConsumer);
         return SimpleEventHandler.builder()
                 .instance(new Object())
-                .spElParserUtil(spElParserUtilImpl)
+                .spElParserUtil(mockSpElParserUtil)
                 .wrappedMethod(consumerMethod)
                 .build();
     }
 
-    /**
-     * Conditional event consumer with conditional expression
-     */
-    private class TestEventConsumerConditional {
-
-        public boolean consumed = false;
-
-        @EventListenerAnnotation(isAsync = false)   //Checking just sync version
-        @EventConditionAnnotation(expression = "#{x>20}")
-        public void consume(Object event) {
-            consumed = true;
-        }
-    }
-
-    /**
-     * Test class
-     */
-    @Builder
-    private class TestObject {
-        public int x;
-        public String y;
-    }
 }

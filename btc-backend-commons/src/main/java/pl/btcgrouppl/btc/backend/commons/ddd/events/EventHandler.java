@@ -1,7 +1,5 @@
 package pl.btcgrouppl.btc.backend.commons.ddd.events;
 
-import rx.Observable;
-
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 25.06.15.
  * <p>

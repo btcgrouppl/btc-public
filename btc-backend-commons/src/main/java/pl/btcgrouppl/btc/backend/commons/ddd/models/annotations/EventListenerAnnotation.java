@@ -1,7 +1,5 @@
 package pl.btcgrouppl.btc.backend.commons.ddd.models.annotations;
 
-import org.springframework.stereotype.Component;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

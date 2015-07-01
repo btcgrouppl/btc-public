@@ -1,21 +1,20 @@
 package pl.btcgrouppl.btc.backend.commons.test.util;
 
-import lombok.Builder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import pl.btcgrouppl.btc.backend.commons.test.util.ddd.TestObject;
 import pl.btcgrouppl.btc.backend.commons.utils.SpElParserUtil;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-import static tumbler.Tumbler.Given;
-import static tumbler.Tumbler.Then;
-import static tumbler.Tumbler.When;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static tumbler.Tumbler.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -62,15 +61,5 @@ public class SpElParserUtilImplTest {
         Then("Expression should be properly parsed");
         assertTrue(actualTrueResult);
         assertFalse(actualFalseResult);
-    }
-
-
-    /**
-     * Test class
-     */
-    @Builder
-    private class TestObject {
-        public int x;
-        public String y;
     }
 }

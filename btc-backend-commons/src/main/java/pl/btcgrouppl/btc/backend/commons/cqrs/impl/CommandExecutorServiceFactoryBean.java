@@ -6,8 +6,6 @@ import pl.btcgrouppl.btc.backend.commons.cqrs.CommandExecutorService;
 import pl.btcgrouppl.btc.backend.commons.cqrs.CommandHandlerRegistry;
 import pl.btcgrouppl.btc.backend.commons.utils.impl.BtcContext;
 
-import java.util.concurrent.Executors;
-
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 23.05.15.
  */
