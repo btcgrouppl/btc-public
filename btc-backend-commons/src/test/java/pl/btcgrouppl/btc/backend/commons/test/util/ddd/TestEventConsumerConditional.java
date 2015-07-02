@@ -20,9 +20,13 @@ public class TestEventConsumerConditional {
     private boolean consumed = false;
 
     @EventListenerAnnotation(isAsync = false)   //Checking just sync version
-    @EventConditionAnnotation(expression = TestConstants.DDD.SPEL_CONDITIONAL_EXPRESSION)
+    @EventConditionAnnotation(expression = TestConstants.DDD.SPEL_OBJECT_CONDITIONAL_EXPRESSION)
     public void consume(Object event) {
         consumed = true;
+    }
+
+    public void clear() {
+        consumed = false;
     }
 
 }

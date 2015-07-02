@@ -1,10 +1,11 @@
 package pl.btcgrouppl.btc.backend.commons.test.ddd;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -25,8 +26,9 @@ import static tumbler.Tumbler.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = {BtcBackendCommonsTestSpringConfiguration.class})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class DefaultEventPublisherTest {
+
+    private static final int TIMEOUT_SEC = 30;
 
     @Autowired
     @Qualifier(BtcBackendCommonsTestSpringConfiguration.MOCK_INSTANCE)
@@ -36,30 +38,41 @@ public class DefaultEventPublisherTest {
     @Qualifier("defaultEventPublisher")
     private EventPublisher defaultEventPublisher;
 
+    /**
+     * Currently used event handler wrapper
+     */
+    private RxAsyncEventHandlerWrapper currentEventHandler;
+
+
+    @Before
+    public void setUp() {
+        TestEventConsumer testEventConsumer = new TestEventConsumer();
+        currentEventHandler = new RxAsyncEventHandlerWrapper(new SimpleEventHandler(
+                DddUtil.getConsumerMethod(testEventConsumer), testEventConsumer, mockSpElParserUtil
+        ));
+    }
+
+    @After
+    public void tearDown() {
+        defaultEventPublisher.removeHandler(currentEventHandler);
+    }
+
     @Test
     public void testAddHandler() throws Exception {
         Given("Initialized instance, created TestEventConsumer, and created RxAsyncEventHandlerWrapper");
-        TestEventConsumer testEventConsumer = new TestEventConsumer();
-        RxAsyncEventHandlerWrapper rxAsyncEventHandlerWrapper = new RxAsyncEventHandlerWrapper(new SimpleEventHandler(
-                DddUtil.getConsumerMethod(testEventConsumer), testEventConsumer, mockSpElParserUtil
-        ));
 
         When("Adding new event handler");
-        defaultEventPublisher.addHandler(rxAsyncEventHandlerWrapper);
+        defaultEventPublisher.addHandler(currentEventHandler);
 
         Then("No of handlers should have been increased");
         assertEquals(1, defaultEventPublisher.getHandlers().size());
     }
 
     @Test
-    public void testPublish() throws Exception {    //TODO EVENT LISTENER ANNOTATION PROPAGATE (BOOL)
+    public void testPublish() throws Exception {
         Given("Initialized instance, created TestEventConsumer, and created RxAsyncEventHandlerWrapper");
-        TestEventConsumer testEventConsumer = new TestEventConsumer();
-        RxAsyncEventHandlerWrapper rxAsyncEventHandlerWrapper = new RxAsyncEventHandlerWrapper(new SimpleEventHandler(
-                DddUtil.getConsumerMethod(testEventConsumer), testEventConsumer, mockSpElParserUtil
-        ));
-        defaultEventPublisher.addHandler(rxAsyncEventHandlerWrapper);
-        BlockingObservable<Boolean> booleanBlockingObservable = rxAsyncEventHandlerWrapper.asObservable().timeout(30, TimeUnit.SECONDS).toBlocking();
+        defaultEventPublisher.addHandler(currentEventHandler);
+        BlockingObservable<Boolean> booleanBlockingObservable = currentEventHandler.asObservable().timeout(TIMEOUT_SEC, TimeUnit.SECONDS).toBlocking();
 
         When("Dispatching event");
         defaultEventPublisher.publish(new Object());

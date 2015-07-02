@@ -9,8 +9,14 @@ package pl.btcgrouppl.btc.backend.commons.ddd.events;
 public interface AsyncEventHandler extends EventHandler {
 
     /**
+     * On success callback. Executed in case of success.
+     * @param result typically, dispatched event passed here
+     */
+    void onSuccessHandle(Object result);
+
+    /**
      * Passing exception here
      * @param e
      */
-    void onFailure(Exception e);
+    void onFailureHandle(Exception e);
 }

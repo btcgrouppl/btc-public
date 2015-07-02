@@ -32,6 +32,9 @@ public class SimpleEventHandlerTest {
 
     private static final Logger LOG = LogManager.getLogger(SimpleEventHandlerTest.class);
 
+    public static final TestEventConsumerConditional EVENT_CONSUMER_CONDITIONAL = new TestEventConsumerConditional();
+    public static final TestEventConsumer EVENT_CONSUMER_NON_CONDITIONAL = new TestEventConsumer();
+
     @Autowired
     @Qualifier(BtcBackendCommonsTestSpringConfiguration.MOCK_INSTANCE)
     private SpElParserUtil mockSpElParserUtil;
@@ -39,6 +42,8 @@ public class SimpleEventHandlerTest {
 
     @Before
     public void setUp() {
+        EVENT_CONSUMER_CONDITIONAL.clear();
+        EVENT_CONSUMER_NON_CONDITIONAL.clear();
     }
 
     @Test(expected = EventExecutionException.class)
@@ -56,35 +61,30 @@ public class SimpleEventHandlerTest {
     @Test
     public void testIsEventApplicableTrue() throws Exception {
         Given("Created instance of TestObject, instance of TestEventConsumer and TestEventConsumerConditional");
-        TestEventConsumer testEventConsumer = new TestEventConsumer();
-        TestEventConsumerConditional testEventConsumerConditional = new TestEventConsumerConditional();
-
         TestObject trueConditionalEvent = TestObject.builder().x(22).build();
-
-        EventHandler nonConditionalEventHandler = buildEventHandler(testEventConsumer);
-        EventHandler conditionalEventHandler = buildEventHandler(testEventConsumerConditional);
+        EventHandler nonConditionalEventHandler = buildEventHandler(EVENT_CONSUMER_NON_CONDITIONAL);
+        EventHandler conditionalEventHandler = buildEventHandler(EVENT_CONSUMER_CONDITIONAL);
 
         When("Checking, whether passed TestObject instances are applicable to consumers");
         conditionalEventHandler.handle(trueConditionalEvent);
         nonConditionalEventHandler.handle(trueConditionalEvent);
 
         Then("TRUE boolean value should be returned");
-        assertTrue(testEventConsumer.isConsumed());
-        assertTrue(testEventConsumerConditional.isConsumed());
+        assertTrue(EVENT_CONSUMER_NON_CONDITIONAL.isConsumed());
+        assertTrue(EVENT_CONSUMER_CONDITIONAL.isConsumed());
     }
 
     @Test
     public void testIsEventApplicableFalse() throws Exception {
         Given("Created instance of TestObject, instance of TestEventConsumer and TestEventConsumerConditional");
-        TestEventConsumerConditional testEventConsumerConditional = new TestEventConsumerConditional();
         TestObject falseConditionalEvent = TestObject.builder().x(20).build();
-        EventHandler conditionalEventHandler = buildEventHandler(testEventConsumerConditional);
+        EventHandler conditionalEventHandler = buildEventHandler(EVENT_CONSUMER_CONDITIONAL);
 
         When("Checking, whether passed TestObject instances are applicable to consumers");
         conditionalEventHandler.handle(falseConditionalEvent);
 
         Then("FALSE boolean value should be returned on conditional consumer");
-        assertFalse(testEventConsumerConditional.isConsumed());
+        assertFalse(EVENT_CONSUMER_CONDITIONAL.isConsumed());
     }
 
 
@@ -99,7 +99,7 @@ public class SimpleEventHandlerTest {
             throw new RuntimeException("Consumer method is null!");
         }
         EventHandler simpleEventHandler = SimpleEventHandler.builder()
-                .instance(consumerMethod)
+                .instance(testEventConsumer)
                 .wrappedMethod(consumerMethod)
                 .spElParserUtil(mockSpElParserUtil).build();
         return simpleEventHandler;

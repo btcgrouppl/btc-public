@@ -15,4 +15,6 @@ public interface EventPublisher {
     Set<EventHandler> getHandlers();
 
     void addHandler(EventHandler eventHandler);
+
+    void removeHandler(EventHandler eventHandler);
 }

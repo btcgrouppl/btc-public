@@ -37,13 +37,22 @@ public class AsyncEventHandlerWrapper implements AsyncEventHandler, ConditionalE
                 try {
                     LOG.debug("Trying to invoke wrapped event handler");
                     wrappedEventHandler.handle(event);
+                    onSuccessHandle(event);
                 }
                 catch(EventExecutionException e) {
                     LOG.debug("Error on invoking wrapped event handler. Moving to onFailure()", e);
-                    onFailure(e);
+                    onFailureHandle(e);
                 }
             }
         });
+    }
+
+    /**
+     * Override this method when you want to customize onSuccess behaviour. By default, empty method.
+     * @param result typically, dispatched event passed here
+     */
+    @Override
+    public void onSuccessHandle(Object result) {
     }
 
     /**
@@ -51,7 +60,7 @@ public class AsyncEventHandlerWrapper implements AsyncEventHandler, ConditionalE
      * @param e
      */
     @Override
-    public void onFailure(Exception e) {
+    public void onFailureHandle(Exception e) {
     }
 
     @Override

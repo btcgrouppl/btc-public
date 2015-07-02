@@ -44,7 +44,19 @@ public class DelegatingEventPublisher implements EventPublisher {
                 item.addHandler(eventHandler);
             }
             catch(UnsupportedOperationException e) {
-                LOG.error("Error while adding event handler for publisher.", e);
+                LOG.error("Error while adding event handler for publisher. SKIPPING THIS EXCEPTION.", e);
+            }
+        }
+    }
+
+    @Override
+    public void removeHandler(EventHandler eventHandler) {
+        for(EventPublisher item: eventPublisherList) {
+            try {
+                item.removeHandler(eventHandler);
+            }
+            catch(UnsupportedOperationException e) {
+                LOG.error("Error while removing event handler for publisher. SKIPPING THIS EXCEPTION.", e);
             }
         }
     }

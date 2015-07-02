@@ -4,7 +4,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventPublisher;
@@ -22,7 +24,9 @@ import static tumbler.Tumbler.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = BtcBackendCommonsTestSpringConfiguration.class)
-public class IntegrationEventPublisherTest {
+@TestPropertySource("classpath:/test-application-jms.properties")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+public class IntegrationEventPublisherIntegrationTest {
 
     private static final int TIMEOUT_SEC = 30;
 
@@ -44,7 +48,7 @@ public class IntegrationEventPublisherTest {
         integrationEventPublisher.publish(testEvent);
 
         Then("All general channel subscribers should be notified about message");
-        IntegrationMessage actualIntegrationMessage = integrationMessageBlockingObservable.last();
+        IntegrationMessage actualIntegrationMessage = integrationMessageBlockingObservable.first();
         assertEquals(expectedIntegrationMessage.getBody(), actualIntegrationMessage.getBody());
     }
 }

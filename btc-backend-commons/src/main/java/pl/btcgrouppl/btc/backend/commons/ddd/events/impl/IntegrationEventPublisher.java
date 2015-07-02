@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import pl.btcgrouppl.btc.backend.commons.ddd.events.ConditionalEventHandlerAware;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventAnnotationAware;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventPublisher;
@@ -55,6 +54,11 @@ public class IntegrationEventPublisher implements EventPublisher, EventAnnotatio
 
     @Override
     public void addHandler(EventHandler eventHandler) {
+        throw new UnsupportedOperationException("Integration event publisher uses spring integration flows!");
+    }
+
+    @Override
+    public void removeHandler(EventHandler eventHandler) {
         throw new UnsupportedOperationException("Integration event publisher uses spring integration flows!");
     }
 

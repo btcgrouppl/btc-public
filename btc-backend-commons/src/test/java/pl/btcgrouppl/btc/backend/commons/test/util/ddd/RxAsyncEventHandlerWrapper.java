@@ -3,32 +3,38 @@ package pl.btcgrouppl.btc.backend.commons.test.util.ddd;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.impl.AsyncEventHandlerWrapper;
 import rx.Observable;
-import rx.subjects.PublishSubject;
+import rx.subjects.ReplaySubject;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 01.07.15.
  * <p>
- *     Async event handler wrapper with RX publish subject prepared for tests
+ *     Async event handler wrapper with RX publish subject prepared for tests.
  * </p>
  */
 public final class RxAsyncEventHandlerWrapper extends AsyncEventHandlerWrapper {
 
-    private PublishSubject<Boolean> executionSubject = PublishSubject.create();
+    private ReplaySubject<Boolean> executionSubject = ReplaySubject.create();
 
     public RxAsyncEventHandlerWrapper(EventHandler wrappedEventHandler) {
         super(wrappedEventHandler);
     }
 
     @Override
-    public void handle(Object event) {
+    public void onSuccessHandle(Object result) {
+        super.onSuccessHandle(result);
         executionSubject.onNext(Boolean.TRUE);
-        super.handle(event);
+        if(!executionSubject.hasCompleted()) {
+            executionSubject.onCompleted();
+        }
     }
 
     @Override
-    public void onFailure(Exception e) {
-        super.onFailure(e);
+    public void onFailureHandle(Exception e) {
+        super.onFailureHandle(e);
         executionSubject.onNext(Boolean.FALSE);
+        if(!executionSubject.hasCompleted()) {
+            executionSubject.onCompleted();
+        }
     }
 
     public Observable<Boolean> asObservable() {

@@ -1,9 +1,11 @@
 package pl.btcgrouppl.btc.backend.commons.test.util.ddd;
 
 
+import com.google.common.base.Predicate;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.mockito.ArgumentMatcher;
+import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import pl.btcgrouppl.btc.backend.commons.ddd.models.annotations.EventAnnotation;
@@ -15,38 +17,32 @@ import pl.btcgrouppl.btc.backend.commons.ddd.models.annotations.EventAnnotation;
  *     Test class used for DDD tests
  * </p>
  */
-@Data
-@Builder
 @Component
 @Scope("prototype")
 @EventAnnotation(isExternal = true)
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TestObject {
+
+    public static final Predicate<TestObject> SP_EL_RESULT_TRUE_PREDICATE = new Predicate<TestObject>() {
+
+        @Override
+        public boolean apply(TestObject input) {
+            return input.getX()>20;
+        }
+    };
+
+    public static final Predicate<TestObject> SP_EL_RESULT_FALSE_PREDICATE = new Predicate<TestObject>() {
+
+        @Override
+        public boolean apply(TestObject input) {
+            return input.getX()<=20;
+        }
+    };
 
     private int x;
     private String y;
 
-
-    /**
-     * True result argument matcher on TestObject. Used for mock ver of SpElParserUtil
-     */
-    public static class SpElResultTrueArgumentMatcher implements ArgumentMatcher<TestObject> {
-
-        @Override
-        public boolean matches(Object argument) {
-            TestObject castedArgument = (TestObject)argument;
-            return castedArgument.getX()>20;
-        }
-    }
-
-    /**
-     * False result matcher on TestObject. Used for mock ver of SpElParserUtil
-     */
-    public static class SpElResultFalseArgumentMatcher implements ArgumentMatcher<TestObject> {
-
-        @Override
-        public boolean matches(Object argument) {
-            TestObject castedArgument = (TestObject)argument;
-            return castedArgument.getX()<=20;
-        }
-    }
 }

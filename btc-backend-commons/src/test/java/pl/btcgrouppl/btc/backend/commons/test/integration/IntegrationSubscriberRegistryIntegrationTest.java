@@ -34,7 +34,7 @@ import static tumbler.Tumbler.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = BtcBackendCommonsTestSpringConfiguration.class)
-@TestPropertySource(locations="classpath:test-application.properties")
+@TestPropertySource(locations="classpath:test-application-jms.properties")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class IntegrationSubscriberRegistryIntegrationTest {
 

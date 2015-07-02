@@ -50,6 +50,11 @@ public class DefaultEventPublisher implements EventPublisher, ConditionalEventHa
     }
 
     @Override
+    public void removeHandler(@NonNull EventHandler eventHandler) {
+        eventHandlers.remove(eventHandler);
+    }
+
+    @Override
     public boolean isHandlerApplicable(Object eventHandler, Object event) {
         try {
             return (eventHandler==null || (!(eventHandler instanceof ConditionalEventHandler)))

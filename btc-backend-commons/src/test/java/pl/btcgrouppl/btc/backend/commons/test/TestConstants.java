@@ -18,6 +18,7 @@ public interface TestConstants {
     }
 
     interface DDD {
-        public static final String SPEL_CONDITIONAL_EXPRESSION = "#{x>20}";
+        public static final String SPEL_CONDITIONAL_EXPRESSION = "x>20";
+        public static final String SPEL_OBJECT_CONDITIONAL_EXPRESSION = "event.x>20";
     }
 }

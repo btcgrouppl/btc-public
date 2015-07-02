@@ -23,4 +23,8 @@ public class TestEventConsumer {
     public void consume(Object event) {
         consumed = true;
     }
+
+    public void clear() {
+        consumed = false;
+    }
 }
