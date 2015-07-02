@@ -6,6 +6,7 @@ import lombok.Data;
 import org.mockito.ArgumentMatcher;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import pl.btcgrouppl.btc.backend.commons.ddd.models.annotations.EventAnnotation;
 
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 @Builder
 @Component
 @Scope("prototype")
+@EventAnnotation(isExternal = true)
 public class TestObject {
 
     private int x;

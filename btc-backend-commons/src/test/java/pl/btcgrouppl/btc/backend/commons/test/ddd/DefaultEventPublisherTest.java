@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -16,12 +17,15 @@ import pl.btcgrouppl.btc.backend.commons.test.util.ddd.TestEventConsumer;
 import pl.btcgrouppl.btc.backend.commons.utils.SpElParserUtil;
 import rx.observables.BlockingObservable;
 
+import java.util.concurrent.TimeUnit;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static tumbler.Tumbler.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = {BtcBackendCommonsTestSpringConfiguration.class})
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class DefaultEventPublisherTest {
 
     @Autowired
@@ -39,7 +43,6 @@ public class DefaultEventPublisherTest {
         RxAsyncEventHandlerWrapper rxAsyncEventHandlerWrapper = new RxAsyncEventHandlerWrapper(new SimpleEventHandler(
                 DddUtil.getConsumerMethod(testEventConsumer), testEventConsumer, mockSpElParserUtil
         ));
-        BlockingObservable<Boolean> booleanBlockingObservable = rxAsyncEventHandlerWrapper.asObservable().toBlocking();
 
         When("Adding new event handler");
         defaultEventPublisher.addHandler(rxAsyncEventHandlerWrapper);
@@ -56,7 +59,7 @@ public class DefaultEventPublisherTest {
                 DddUtil.getConsumerMethod(testEventConsumer), testEventConsumer, mockSpElParserUtil
         ));
         defaultEventPublisher.addHandler(rxAsyncEventHandlerWrapper);
-        BlockingObservable<Boolean> booleanBlockingObservable = rxAsyncEventHandlerWrapper.asObservable().toBlocking();
+        BlockingObservable<Boolean> booleanBlockingObservable = rxAsyncEventHandlerWrapper.asObservable().timeout(30, TimeUnit.SECONDS).toBlocking();
 
         When("Dispatching event");
         defaultEventPublisher.publish(new Object());

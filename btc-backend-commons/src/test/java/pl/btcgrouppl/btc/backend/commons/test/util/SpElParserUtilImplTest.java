@@ -54,7 +54,7 @@ public class SpElParserUtilImplTest {
         trueParseContext.put("object", trueResultObject);
 
         Map<String, Object> falseParseContext = new HashMap<>();
-        falseParseContext.put("object", trueResultObject);
+        falseParseContext.put("object", falseResultObject);
 
 
         When("Trying parse on with passed root object");
