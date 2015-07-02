@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static tumbler.Tumbler.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = IntegrationEventPublisherTest.class)
+@ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = BtcBackendCommonsTestSpringConfiguration.class)
 public class IntegrationEventPublisherTest {
 
     private static final int TIMEOUT_SEC = 30;

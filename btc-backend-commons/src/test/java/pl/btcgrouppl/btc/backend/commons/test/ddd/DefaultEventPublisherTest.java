@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 import static tumbler.Tumbler.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = {DefaultEventPublisherTest.class})
+@ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = {BtcBackendCommonsTestSpringConfiguration.class})
 public class DefaultEventPublisherTest {
 
     @Autowired
@@ -49,7 +49,7 @@ public class DefaultEventPublisherTest {
     }
 
     @Test
-    public void testPublish() throws Exception {
+    public void testPublish() throws Exception {    //TODO EVENT LISTENER ANNOTATION PROPAGATE (BOOL)
         Given("Initialized instance, created TestEventConsumer, and created RxAsyncEventHandlerWrapper");
         TestEventConsumer testEventConsumer = new TestEventConsumer();
         RxAsyncEventHandlerWrapper rxAsyncEventHandlerWrapper = new RxAsyncEventHandlerWrapper(new SimpleEventHandler(

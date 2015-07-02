@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 import static tumbler.Tumbler.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = SimpleEventHandlerTest.class)
+@ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = BtcBackendCommonsTestSpringConfiguration.class)
 public class SimpleEventHandlerTest {
 
     private static final Logger LOG = LogManager.getLogger(SimpleEventHandlerTest.class);

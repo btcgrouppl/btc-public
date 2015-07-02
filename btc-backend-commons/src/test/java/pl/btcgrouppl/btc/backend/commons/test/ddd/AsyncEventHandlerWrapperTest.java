@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 import static tumbler.Tumbler.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = {AsyncEventHandlerWrapperTest.class})
+@ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = {BtcBackendCommonsTestSpringConfiguration.class})
 public class AsyncEventHandlerWrapperTest {
 
     @Autowired

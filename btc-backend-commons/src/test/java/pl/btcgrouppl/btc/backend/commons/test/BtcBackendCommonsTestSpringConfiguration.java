@@ -1,6 +1,5 @@
 package pl.btcgrouppl.btc.backend.commons.test;
 
-import org.mockito.ArgumentMatcher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -24,12 +23,14 @@ import org.springframework.jms.core.JmsTemplate;
 import pl.btcgrouppl.btc.backend.commons.BtcBackendCommonsSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 import pl.btcgrouppl.btc.backend.commons.test.util.cqrs.TestCommand1;
+import pl.btcgrouppl.btc.backend.commons.test.util.ddd.TestObject;
 import pl.btcgrouppl.btc.backend.commons.utils.SpElParserUtil;
 
 import java.util.UUID;
 import java.util.concurrent.Executors;
 
 import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -108,25 +109,16 @@ public class BtcBackendCommonsTestSpringConfiguration {
     @Qualifier(MOCK_INSTANCE)
     public SpElParserUtil mockParserUtil() {
         SpElParserUtil mockSpElParserUtil = mock(SpElParserUtil.class);
-
         when(mockSpElParserUtil.parseExpression(
-                TestConstants.DDD.SPEL_CONDITIONAL_EXPRESSION, argThat(new ArgumentMatcher<Object>() {
-                    @Override
-                    public boolean matches(Object argument) {
-                        return false;
-                    }
-                }), Boolean.class
+                eq(TestConstants.DDD.SPEL_CONDITIONAL_EXPRESSION),
+                argThat(new TestObject.SpElResultTrueArgumentMatcher()),
+                eq(Boolean.class)
         )).thenReturn(Boolean.TRUE);
-
         when(mockSpElParserUtil.parseExpression(
-                TestConstants.DDD.SPEL_CONDITIONAL_EXPRESSION, argThat(new ArgumentMatcher<Object>() {
-                    @Override
-                    public boolean matches(Object argument) {
-                        return false;
-                    }
-                }), Boolean.class
+                eq(TestConstants.DDD.SPEL_CONDITIONAL_EXPRESSION),
+                argThat(new TestObject.SpElResultFalseArgumentMatcher()),
+                eq(Boolean.class)
         )).thenReturn(Boolean.FALSE);
-
         return mockSpElParserUtil;
     }
 

@@ -1,6 +1,5 @@
 package pl.btcgrouppl.btc.backend.commons.utils.impl;
 
-import org.springframework.stereotype.Component;
 import pl.btcgrouppl.btc.backend.commons.utils.Context;
 
 import java.util.concurrent.ExecutorService;
@@ -12,7 +11,6 @@ import java.util.concurrent.Executors;
  *     Global BTC context. Global utilities for all classes, such as excecutor services etc.
  * </p>
  */
-@Component
 public enum BtcContext implements Context {
 
     /**

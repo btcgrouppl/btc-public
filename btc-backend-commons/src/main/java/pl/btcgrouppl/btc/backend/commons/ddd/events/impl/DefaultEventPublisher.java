@@ -12,8 +12,8 @@ import pl.btcgrouppl.btc.backend.commons.ddd.events.EventPublisher;
 import pl.btcgrouppl.btc.backend.commons.utils.models.exceptions.SpElParseException;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Created by Sebastian Mekal <sebitg@gmail.com> on 24.06.15.
@@ -24,7 +24,7 @@ public class DefaultEventPublisher implements EventPublisher, ConditionalEventHa
 
     private static final Logger LOG = LogManager.getLogger(DefaultEventPublisher.class);
 
-    protected Set<EventHandler> eventHandlers = Collections.synchronizedSet(new TreeSet<EventHandler>());
+    protected Set<EventHandler> eventHandlers = Collections.synchronizedSet(new HashSet<EventHandler>());
 
     @Override
     public void publish(@NonNull final Object event) {
