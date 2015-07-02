@@ -47,8 +47,10 @@ public class SimpleEventHandler implements EventHandler, ConditionalEventHandler
     @Override
     public void handle(Object event) {
         try {
-            LOG.debug("Trying to invoke event handler for method: " + wrappedMethod.toString() + " of object: " + instance.toString());
-            wrappedMethod.invoke(instance, event);
+            if(isEventApplicable(event)) {
+                LOG.debug("Trying to invoke event handler for method: " + wrappedMethod.toString() + " of object: " + instance.toString());
+                wrappedMethod.invoke(instance, event);
+            }
         } catch (IllegalAccessException | InvocationTargetException e) {
             LOG.error("Error during event handler method invocation: " + wrappedMethod.toString() + " of object: " + instance.toString() + ". Passing EventExecutionException.", e);
             throw EventExecutionException.create(e, EventExecutionException.TYPE.METHOD_INVOKE_FAIL);
