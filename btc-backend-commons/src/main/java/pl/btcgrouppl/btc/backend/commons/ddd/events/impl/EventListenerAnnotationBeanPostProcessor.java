@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
+import pl.btcgrouppl.btc.backend.commons.Constants;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventPublisher;
 import pl.btcgrouppl.btc.backend.commons.ddd.models.annotations.EventListenerAnnotation;
@@ -26,7 +27,8 @@ public class EventListenerAnnotationBeanPostProcessor implements BeanPostProcess
     private final SpElParserUtil spElParserUtil;
 
     @Autowired
-    public EventListenerAnnotationBeanPostProcessor(@Qualifier("delegatingEventPublisher") EventPublisher delegatingEventPublisher, @Qualifier("spElParserUtil") SpElParserUtil spElParserUtil) {
+    public EventListenerAnnotationBeanPostProcessor(@Qualifier(Constants.QUALIFIERS.DELEGATING_PUBLISHER) EventPublisher delegatingEventPublisher,
+                                                    @Qualifier(Constants.QUALIFIERS.SPEL_PARSER) SpElParserUtil spElParserUtil) {
         this.delegatingEventPublisher = delegatingEventPublisher;
         this.spElParserUtil = spElParserUtil;
     }

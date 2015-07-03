@@ -1,4 +1,4 @@
-package pl.btcgrouppl.btc.backend.commons.test.util.ddd.mockito;
+package pl.btcgrouppl.btc.backend.commons.test.util.mockito;
 
 import com.google.common.base.Predicate;
 import org.mockito.ArgumentMatcher;

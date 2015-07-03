@@ -5,6 +5,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import pl.btcgrouppl.btc.backend.commons.Constants;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.ConditionalEventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.ConditionalEventHandlerAware;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventHandler;
@@ -19,7 +20,7 @@ import java.util.Set;
  * Created by Sebastian Mekal <sebitg@gmail.com> on 24.06.15.
  */
 @Component
-@Qualifier("defaultEventPublisher")
+@Qualifier(Constants.QUALIFIERS.DEFAULT_PUBLISHER)
 public class DefaultEventPublisher implements EventPublisher, ConditionalEventHandlerAware {
 
     private static final Logger LOG = LogManager.getLogger(DefaultEventPublisher.class);

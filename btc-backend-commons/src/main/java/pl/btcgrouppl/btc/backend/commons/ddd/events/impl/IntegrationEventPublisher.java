@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import pl.btcgrouppl.btc.backend.commons.Constants;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventAnnotationAware;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventHandler;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventPublisher;
@@ -22,7 +23,7 @@ import java.util.Set;
  * </p>
  */
 @Component
-@Qualifier("integrationEventPublisher")
+@Qualifier(Constants.QUALIFIERS.INTEGRATION_PUBLISHER)
 public class IntegrationEventPublisher implements EventPublisher, EventAnnotationAware {
 
     private static final Logger LOG = LogManager.getLogger(IntegrationEventPublisher.class);

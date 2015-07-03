@@ -15,7 +15,7 @@ import pl.btcgrouppl.btc.backend.commons.BtcBackendCommonsSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 import pl.btcgrouppl.btc.backend.commons.test.util.cqrs.TestCommand1;
 import pl.btcgrouppl.btc.backend.commons.test.util.ddd.TestObject;
-import pl.btcgrouppl.btc.backend.commons.test.util.ddd.mockito.MockitoMatchers;
+import pl.btcgrouppl.btc.backend.commons.test.util.mockito.MockitoMatchers;
 import pl.btcgrouppl.btc.backend.commons.utils.SpElParserUtil;
 
 import java.util.Map;

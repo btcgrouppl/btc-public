@@ -16,6 +16,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import pl.btcgrouppl.btc.backend.commons.integration.IntegrationCommonSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 import pl.btcgrouppl.btc.backend.commons.test.BtcBackendCommonsTestSpringConfiguration;
+import pl.btcgrouppl.btc.backend.commons.test.TestConstants;
 import pl.btcgrouppl.btc.backend.commons.test.util.integration.SampleSubscriber1;
 import pl.btcgrouppl.btc.backend.commons.test.util.integration.SampleSubscriber2;
 import rx.observables.BlockingObservable;
@@ -34,7 +35,7 @@ import static tumbler.Tumbler.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = BtcBackendCommonsTestSpringConfiguration.class)
-@TestPropertySource(locations="classpath:test-application-jms.properties")
+@TestPropertySource(TestConstants.OTHERS.TEST_PROP_SOURCE_JMS)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class IntegrationSubscriberRegistryIntegrationTest {
 

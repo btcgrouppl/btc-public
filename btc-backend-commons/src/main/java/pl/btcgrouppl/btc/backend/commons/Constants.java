@@ -12,7 +12,7 @@ public interface Constants {
     /**
      * Spring integration constants
      */
-    public interface INTEGRATION {
+    interface INTEGRATION {
         public static final String GENERAL_CHANNEL = "generalChannel";
         public static final String GENERAL_DESTINATION = "general_mailbox";
     }
@@ -20,17 +20,25 @@ public interface Constants {
     /**
      * Active profiles
      */
-    public interface PROFILES {
+    interface PROFILES {
         public static final String PROFILE_INTEGRATION_JMS = "integration-jms";
         public static final String PROFILE_INTEGRATION_MONGO = "integration-mongo";
 
         public static final String PROFILE_DB_MONGO = "db-mongo";
     }
 
-    public interface JSON {
+    interface JSON {
         public static final String SERIALIZER_CLEAR = "serializerClear";
         public static final String SERIALIZERS_SET = "serializersSet";
         public static final String INTEGRATION_SERIALIZER = "integrationSerializer";
         public static final String INTEGRATION_DESERIALIZER = "integrationDeserializer";
+    }
+
+    interface QUALIFIERS {
+        public static final String DEFAULT_PUBLISHER = "defaultEventPublisher";
+        public static final String INTEGRATION_PUBLISHER = "integrationEventPublisher";
+        public static final String DELEGATING_PUBLISHER = "delegatingEventPublisher";
+
+        public static final String SPEL_PARSER = "spElParserUtil";
     }
 }

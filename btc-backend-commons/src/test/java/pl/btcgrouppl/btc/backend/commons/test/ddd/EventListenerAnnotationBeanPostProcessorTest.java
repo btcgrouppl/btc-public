@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import pl.btcgrouppl.btc.backend.commons.Constants;
 import pl.btcgrouppl.btc.backend.commons.ddd.events.EventPublisher;
 import pl.btcgrouppl.btc.backend.commons.test.BtcBackendCommonsTestSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.test.util.ddd.TestEventConsumer;
@@ -25,7 +26,7 @@ public class EventListenerAnnotationBeanPostProcessorTest implements Application
     private ApplicationContext applicationContext;
 
     @Autowired
-    @Qualifier("defaultEventPublisher")
+    @Qualifier(Constants.QUALIFIERS.DEFAULT_PUBLISHER)
     private EventPublisher defaultEventPublisher;
 
 

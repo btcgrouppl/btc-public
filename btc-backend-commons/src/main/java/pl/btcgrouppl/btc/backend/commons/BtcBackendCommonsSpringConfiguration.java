@@ -38,9 +38,9 @@ public class BtcBackendCommonsSpringConfiguration {
     }
 
     @Bean
-    @Qualifier("delegatingEventPublisher")
-    public EventPublisher delegatingEventPubisher(@Qualifier("defaultEventPublisher") EventPublisher defaultEventPublisher,
-                                                  @Qualifier("integrationEventPublisher") EventPublisher integrationEventPublisher) {
+    @Qualifier(Constants.QUALIFIERS.DELEGATING_PUBLISHER)
+    public EventPublisher delegatingEventPubisher(@Qualifier(Constants.QUALIFIERS.DEFAULT_PUBLISHER) EventPublisher defaultEventPublisher,
+                                                  @Qualifier(Constants.QUALIFIERS.INTEGRATION_PUBLISHER) EventPublisher integrationEventPublisher) {
         List<EventPublisher> publisherList = new LinkedList<>();
         publisherList.add(defaultEventPublisher);
         publisherList.add(integrationEventPublisher);
