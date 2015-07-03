@@ -16,14 +16,12 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import pl.btcgrouppl.btc.backend.commons.integration.IntegrationCommonSpringConfiguration;
 import pl.btcgrouppl.btc.backend.commons.integration.models.pojos.IntegrationMessage;
 import pl.btcgrouppl.btc.backend.commons.test.BtcBackendCommonsTestSpringConfiguration;
+import pl.btcgrouppl.btc.backend.commons.test.TestConstants;
 import pl.btcgrouppl.btc.backend.commons.test.util.integration.SampleSubscriber1;
 import pl.btcgrouppl.btc.backend.commons.test.util.integration.SampleSubscriber2;
-import rx.Observable;
 import rx.observables.BlockingObservable;
 
-import java.util.Collections;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import static org.junit.Assert.assertEquals;
 import static tumbler.Tumbler.*;
@@ -37,7 +35,8 @@ import static tumbler.Tumbler.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = BtcBackendCommonsTestSpringConfiguration.class)
-@TestPropertySource(locations="classpath:test-application.properties")
+@TestPropertySource(TestConstants.OTHERS.TEST_PROP_SOURCE_JMS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class IntegrationSubscriberRegistryIntegrationTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(IntegrationSubscriberRegistryIntegrationTest.class);

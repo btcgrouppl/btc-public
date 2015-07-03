@@ -55,7 +55,7 @@ public class IntegrationCommonSpringConfiguration {
     public interface GeneralMessageGateway {
 
         @Gateway(requestChannel = GENERAL_DIRECT_CHANNEL)
-        void sendMessage(IntegrationMessage message);
+        void sendMessage(IntegrationMessage integrationMessage);
     }
 
     @Bean(name = PollerMetadata.DEFAULT_POLLER)

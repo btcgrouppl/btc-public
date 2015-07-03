@@ -16,4 +16,13 @@ public interface TestConstants {
         public static final String TEST_FLOW_IN = "testFlowIn";
         public static final String TEST_FLOW_OUT = "testFlowOut";
     }
+
+    interface DDD {
+        public static final String SPEL_CONDITIONAL_EXPRESSION = "x>20";
+        public static final String SPEL_OBJECT_CONDITIONAL_EXPRESSION = "event.x>20";
+    }
+
+    interface OTHERS {
+        public static final String TEST_PROP_SOURCE_JMS = "classpath:/test-application-jms.properties";
+    }
 }
